@@ -1,0 +1,52 @@
+// Prisma schema for the announcement management application.
+//
+// PostgreSQL is the authoritative source of truth for all application data.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// A published announcement. Always belongs to at least one category, which is
+/// enforced by the application layer since a relational schema cannot express
+/// "at least one" on the owning side of a many-to-many relation.
+model Announcement {
+  id              String   @id @default(uuid(7)) @db.Uuid
+  title           String   @db.VarChar(200)
+  body            String
+  publicationDate DateTime @map("publication_date") @db.Timestamptz(3)
+  /// Server-managed. Set explicitly on create and on every meaningful update,
+  /// including category reassignment. Never accepted from a client.
+  lastUpdate      DateTime @map("last_update") @db.Timestamptz(3)
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  categories Category[] @relation("AnnouncementCategories")
+
+  // Every list query orders by lastUpdate DESC.
+  @@index([lastUpdate(sort: Desc)])
+  @@map("announcements")
+}
+
+/// A first-class, persisted category. Announcements cannot reference categories
+/// that do not exist in this table.
+model Category {
+  id String @id @default(uuid(7)) @db.Uuid
+
+  /// Human-readable display name, e.g. "Crime & Safety".
+  name String @db.VarChar(100)
+
+  /// Deterministic lowercase form of `name`, used to enforce case-insensitive
+  /// uniqueness. e.g. "crime & safety".
+  normalizedName String @unique @map("normalized_name") @db.VarChar(100)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  announcements Announcement[] @relation("AnnouncementCategories")
+
+  @@map("categories")
+}

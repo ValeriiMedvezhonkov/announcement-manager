@@ -12,12 +12,14 @@ export interface Env {
   NODE_ENV: NodeEnv;
   PORT: number;
   WEB_ORIGIN: string;
+  DATABASE_URL: string;
 }
 
 const DEFAULTS = {
   NODE_ENV: 'development',
   PORT: '3000',
   WEB_ORIGIN: 'http://localhost:5173',
+  DATABASE_URL: '',
 } as const;
 
 function readString(source: Record<string, unknown>, key: keyof typeof DEFAULTS): string {
@@ -36,6 +38,15 @@ function isHttpOrigin(value: string): boolean {
   try {
     const url = new URL(value);
     return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+function isPostgresUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'postgresql:' || url.protocol === 'postgres:';
   } catch {
     return false;
   }
@@ -64,6 +75,13 @@ export function validateEnv(source: Record<string, unknown>): Env {
     errors.push(`WEB_ORIGIN must be an http(s) URL (received "${webOrigin}")`);
   }
 
+  const databaseUrl = readString(source, 'DATABASE_URL');
+  if (databaseUrl === '') {
+    errors.push('DATABASE_URL is required');
+  } else if (!isPostgresUrl(databaseUrl)) {
+    errors.push('DATABASE_URL must be a postgresql:// connection string');
+  }
+
   if (errors.length > 0) {
     throw new Error(`Invalid environment configuration:\n  - ${errors.join('\n  - ')}`);
   }
@@ -72,5 +90,6 @@ export function validateEnv(source: Record<string, unknown>): Env {
     NODE_ENV: nodeEnv as NodeEnv,
     PORT: port,
     WEB_ORIGIN: webOrigin,
+    DATABASE_URL: databaseUrl,
   };
 }
