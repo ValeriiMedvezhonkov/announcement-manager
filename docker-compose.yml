@@ -1,0 +1,31 @@
+# Local development infrastructure.
+#
+# PostgreSQL is the application's source of truth and is required to run the app.
+# The optional OpenSearch service is added later behind a Compose profile so that
+# `npm run infra:up` stays lightweight.
+#
+# The host port defaults to 5433 rather than 5432 to avoid colliding with any
+# PostgreSQL already running on the developer machine. Override with
+# POSTGRES_PORT and keep apps/api/.env in sync.
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: announcement-manager-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: announcements
+      POSTGRES_PASSWORD: announcements
+      POSTGRES_DB: announcements
+    ports:
+      - '${POSTGRES_PORT:-5433}:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U announcements -d announcements']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  postgres-data:
