@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
 import { AnnouncementsService } from './announcements.service.js';
@@ -16,21 +17,23 @@ import {
   AnnouncementListResponseDto,
   AnnouncementResponseDto,
 } from './dto/announcement-response.dto.js';
+import { AnnouncementQueryDto } from './dto/announcement-query.dto.js';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto.js';
 import { UpdateAnnouncementDto } from './dto/update-announcement.dto.js';
-
-const DEFAULT_PAGE = 1;
-const DEFAULT_LIMIT = 20;
 
 @Controller('announcements')
 export class AnnouncementsController {
   constructor(private readonly announcementsService: AnnouncementsService) {}
 
   @Get()
-  async listAnnouncements(): Promise<AnnouncementListResponseDto> {
+  async listAnnouncements(
+    @Query() query: AnnouncementQueryDto
+  ): Promise<AnnouncementListResponseDto> {
     const result = await this.announcementsService.list({
-      page: DEFAULT_PAGE,
-      limit: DEFAULT_LIMIT,
+      page: query.page,
+      limit: query.limit,
+      search: query.search,
+      categoryIds: query.categoryIds,
     });
 
     return {
