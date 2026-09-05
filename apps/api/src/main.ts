@@ -5,10 +5,13 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 
+import { SwaggerModule } from '@nestjs/swagger';
+
 import { AppModule } from './app.module.js';
 import { createValidationException } from './common/errors/validation.factory.js';
 import { ApiExceptionFilter } from './common/filters/api-exception.filter.js';
 import type { Env } from './config/env.validation.js';
+import { buildOpenApiDocument } from './openapi.js';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +30,8 @@ async function bootstrap(): Promise<void> {
   );
   app.useGlobalFilters(new ApiExceptionFilter());
   app.enableShutdownHooks();
+
+  SwaggerModule.setup('docs', app, () => buildOpenApiDocument(app));
 
   const port = config.get('PORT', { infer: true });
   await app.listen(port);

@@ -45,12 +45,12 @@ export class AnnouncementQueryDto {
   @Type(() => Number)
   @IsInt({ message: 'Page must be an integer' })
   @Min(1, { message: 'Page must be at least 1' })
-  page: number = DEFAULT_PAGE;
+  page?: number = DEFAULT_PAGE;
 
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: 'Limit must be an integer' })
   @Min(1, { message: 'Limit must be at least 1' })
   @Max(MAX_LIMIT, { message: `Limit must be at most ${MAX_LIMIT}` })
-  limit: number = DEFAULT_LIMIT;
+  limit?: number = DEFAULT_LIMIT;
 }

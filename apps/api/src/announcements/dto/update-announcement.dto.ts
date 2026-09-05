@@ -9,6 +9,8 @@ import {
   MaxLength,
 } from 'class-validator';
 
+import { ApiProperty } from '@nestjs/swagger';
+
 import { Trim } from '../../common/transforms/trim.transform.js';
 
 /**
@@ -31,6 +33,7 @@ export class UpdateAnnouncementDto {
   body?: string;
 
   @IsOptional()
+  @ApiProperty({ format: 'date-time' })
   @IsISO8601(
     { strict: true, strictSeparator: true },
     { message: 'Publication date must be an ISO 8601 datetime' },

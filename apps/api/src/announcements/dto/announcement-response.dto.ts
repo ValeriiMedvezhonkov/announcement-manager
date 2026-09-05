@@ -1,3 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 import { CategoryResponseDto } from '../../categories/dto/category-response.dto.js';
 import type { AnnouncementWithCategories } from '../announcements.repository.js';
 
@@ -9,8 +11,11 @@ export class AnnouncementResponseDto {
   id!: string;
   title!: string;
   body!: string;
+  @ApiProperty({ format: 'date-time' })
   publicationDate!: string;
+  @ApiProperty({ format: 'date-time' })
   lastUpdate!: string;
+  @ApiProperty({ format: 'date-time' })
   createdAt!: string;
   categories!: CategoryResponseDto[];
 

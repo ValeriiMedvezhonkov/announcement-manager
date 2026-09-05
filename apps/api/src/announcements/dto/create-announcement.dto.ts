@@ -8,6 +8,8 @@ import {
   MaxLength,
 } from 'class-validator';
 
+import { ApiProperty } from '@nestjs/swagger';
+
 import { Trim } from '../../common/transforms/trim.transform.js';
 
 export class CreateAnnouncementDto {
@@ -23,6 +25,7 @@ export class CreateAnnouncementDto {
   body!: string;
 
   /** ISO 8601 datetime; the client converts from its local input format. */
+  @ApiProperty({ format: 'date-time' })
   @IsISO8601(
     { strict: true, strictSeparator: true },
     { message: 'Publication date must be an ISO 8601 datetime' },
