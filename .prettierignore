@@ -5,3 +5,5 @@ coverage/
 package-lock.json
 apps/api/prisma/migrations/
 apps/api/src/generated/
+packages/api-client/src/generated/
+packages/api-client/openapi.json

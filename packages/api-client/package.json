@@ -1,0 +1,20 @@
+{
+  "name": "@announcement-manager/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Generated, typed client for the announcement manager REST API",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "orval --config orval.config.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.102.8"
+  },
+  "devDependencies": {
+    "orval": "8.28.1"
+  }
+}
