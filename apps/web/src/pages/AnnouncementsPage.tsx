@@ -1,7 +1,7 @@
 import { useListAnnouncements, useListCategories } from '@announcement-manager/api-client';
 import { keepPreviousData } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
 import { AnnouncementCardList } from '../features/announcements/components/AnnouncementCardList.tsx';
@@ -22,17 +22,44 @@ const SEARCH_DEBOUNCE_MS = 300;
 
 export function AnnouncementsPage() {
   const isMobile = useIsMobile();
-  const { params, setSearch, setCategoryIds, setPage } = useAnnouncementListParams();
+  const { params, setSearch, setCategoryIds, setPage, clearFilters } = useAnnouncementListParams();
 
   // Local input state gives instant typing; the URL (and query) follow debounced.
   const [searchInput, setSearchInput] = useState(params.search);
   const debouncedSearch = useDebouncedValue(searchInput, SEARCH_DEBOUNCE_MS);
 
+  // URL -> input: external changes (sidebar nav, back/forward, shared links)
+  // win over stale local state. Without this, the one-way sync below would
+  // instantly re-apply the old search and the navigation would appear dead.
+  const lastUrlSearch = useRef(params.search);
   useEffect(() => {
-    if (debouncedSearch !== params.search) {
+    if (params.search !== lastUrlSearch.current) {
+      lastUrlSearch.current = params.search;
+      setSearchInput(params.search);
+    }
+  }, [params.search]);
+
+  // input -> URL: pushed only when the DEBOUNCED value changes, comparing
+  // against the live URL via ref so an external change never gets overwritten
+  // by a stale debounce tick.
+  const paramsSearchRef = useRef(params.search);
+  useEffect(() => {
+    paramsSearchRef.current = params.search;
+  }, [params.search]);
+  // Push only on a genuine debounce transition: setSearch gets a new identity
+  // on every navigation, and re-running with a stale debounced value would
+  // shove the old search straight back into the URL.
+  const prevDebounced = useRef(debouncedSearch);
+  useEffect(() => {
+    if (debouncedSearch === prevDebounced.current) {
+      return;
+    }
+    prevDebounced.current = debouncedSearch;
+    if (debouncedSearch !== paramsSearchRef.current) {
+      lastUrlSearch.current = debouncedSearch;
       setSearch(debouncedSearch);
     }
-  }, [debouncedSearch, params.search, setSearch]);
+  }, [debouncedSearch, setSearch]);
 
   const categoriesQuery = useListCategories();
   const categoryOptions: CategoryOption[] = (categoriesQuery.data ?? []).map((category) => ({
@@ -62,10 +89,9 @@ export function AnnouncementsPage() {
     }
   }, [data, params.page, totalPages, setPage]);
 
-  const clearFilters = (): void => {
+  const onClearFilters = (): void => {
     setSearchInput('');
-    setSearch('');
-    setCategoryIds([]);
+    clearFilters();
   };
 
   return (
@@ -91,7 +117,7 @@ export function AnnouncementsPage() {
 
       {listQuery.isLoading && <ListSkeleton />}
 
-      {listQuery.isError && (
+      {listQuery.isError && data === undefined && (
         <StateCard
           alert
           title="Could not load announcements"
@@ -119,7 +145,7 @@ export function AnnouncementsPage() {
           }
         >
           {hasFilters ? (
-            <Button type="button" variant="secondary" onClick={clearFilters}>
+            <Button type="button" variant="secondary" onClick={onClearFilters}>
               Clear filters
             </Button>
           ) : (
@@ -131,6 +157,12 @@ export function AnnouncementsPage() {
             </Link>
           )}
         </StateCard>
+      )}
+
+      {listQuery.isError && data !== undefined && (
+        <p className={styles.refreshError} role="alert">
+          Couldn’t refresh the list — showing the last loaded results.
+        </p>
       )}
 
       {data !== undefined && data.items.length > 0 && (

@@ -20,3 +20,13 @@
     flex-wrap: wrap;
   }
 }
+
+.refreshError {
+  padding: 10px 14px;
+  margin-top: 20px;
+  font-weight: 700;
+  color: var(--danger);
+  background-color: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+  border-radius: var(--radius-md);
+}
