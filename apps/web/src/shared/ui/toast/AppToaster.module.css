@@ -1,0 +1,50 @@
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 356px;
+  padding: 12px 14px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  color: var(--ink-body);
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-left-width: 4px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+}
+
+.title {
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* --- type variants: tinted surface + colored accent edge and icon --- */
+
+.success {
+  background-color: var(--success-soft);
+  border-color: color-mix(in srgb, var(--success) 35%, var(--border-default));
+  border-left-color: var(--success);
+  color: var(--success);
+}
+
+.error {
+  background-color: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger) 35%, var(--border-default));
+  border-left-color: var(--danger);
+  color: var(--danger);
+}
+
+.info {
+  background-color: var(--surface-sunken);
+  border-left-color: var(--ink-muted);
+  color: var(--ink-strong);
+}
+
+/* Server-pushed events wear the brand accent, distinct from own actions. */
+.realtime {
+  background-color: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border-default));
+  border-left-color: var(--primary);
+  color: var(--accent-soft-ink);
+}

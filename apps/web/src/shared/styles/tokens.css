@@ -40,6 +40,8 @@
   --focus-ring: #b45309;
   --danger: #d92d20;
   --danger-soft: #fef3f2;
+  --success: #17805e;
+  --success-soft: #e9f6f0;
 
   /* shape */
   --radius-sm: 6px;

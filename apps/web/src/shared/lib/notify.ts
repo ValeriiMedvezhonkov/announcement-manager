@@ -1,5 +1,7 @@
 import { toast } from 'sonner';
 
+import toastStyles from '../ui/toast/AppToaster.module.css';
+
 /**
  * Central notification facade. Every toast in the app goes through here, so
  * placement policy lives in exactly one place:
@@ -23,8 +25,8 @@ export const notify = {
     toast.error(message, { position: 'top-center', duration: 6000 });
   },
 
-  /** Reserved for server-pushed events (realtime announcements). */
+  /** Server-pushed events (realtime announcements) in the brand accent. */
   realtime(message: string): void {
-    toast.message(message, { position: 'top-right' });
+    toast.message(message, { position: 'top-right', className: toastStyles.realtime });
   },
 };
