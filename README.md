@@ -1,14 +1,23 @@
 # Announcement Manager
 
-A full-stack announcement management application: a NestJS REST API backed by PostgreSQL, and a
-React administrative client, in a single npm workspace.
+A full-stack announcement management application: a NestJS REST API backed by
+PostgreSQL, and a React administrative client, in a single npm workspace.
 
-> This README covers setup for the current state of the project. The full API reference and
-> architecture notes are added as the corresponding features land.
+```
+React (Vite)
+     │  TanStack Query
+     ▼
+Generated Orval client  ◄── OpenAPI spec ◄── NestJS Swagger
+     │  REST
+     ▼
+NestJS controllers ──► services ──► feature repositories ──► Prisma ──► PostgreSQL
+     │
+     └─► application events ──► realtime listener ──► Socket.IO ──► connected clients
+```
 
 ## Requirements
 
-- Node.js >= 22.12.0 (developed against v24.19.0)
+- Node.js >= 22.12 (developed against v24)
 - npm >= 10
 - Docker with Compose v2+
 
@@ -20,86 +29,108 @@ npm install
 cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env
 
-npm run infra:up     # PostgreSQL, waits until healthy
-npm run db:migrate   # apply migrations
-npm run db:seed      # deterministic seed data
+npm run infra:up      # PostgreSQL (host port 5433), waits until healthy
+npm run db:generate   # generate the Prisma client (git-ignored)
+npm run db:migrate    # apply migrations
+npm run db:seed       # deterministic seed data (idempotent)
 ```
 
-`npm run infra:up` publishes PostgreSQL on host port **5433** rather than the default 5432, so it
-does not collide with another PostgreSQL already running on your machine. Override with
-`POSTGRES_PORT` and keep `apps/api/.env` in sync.
+PostgreSQL publishes host port **5433** (not 5432) to avoid colliding with a
+locally running PostgreSQL. Override with `POSTGRES_PORT` and keep
+`apps/api/.env` in sync.
 
 ## Running
 
 ```bash
-npm run dev       # API and web client together
-npm run dev:api   # http://localhost:3000/api
-npm run dev:web   # http://localhost:5173
+npm run dev        # API + web together
+npm run dev:api    # http://localhost:3000/api
+npm run dev:web    # http://localhost:5173
 ```
 
-```bash
-curl http://localhost:3000/api/health
-```
+Interactive API documentation (Swagger UI): **http://localhost:3000/docs**
 
-## Validation
+## Testing and validation
 
 ```bash
-npm run lint
+npm test            # API integration suite + web component/unit suite
+npm run lint        # ESLint (type-aware) across the workspace
 npm run typecheck
 npm run build
 npm run format:check
 ```
 
-## Workspace layout
+The API tests boot the compiled application against a dedicated
+`announcements_test` database (created automatically) and exercise every
+mandatory behavior over real HTTP — PostgreSQL must be running
+(`npm run infra:up`). The web tests use Testing Library with MSW at the
+network boundary. CI (GitHub Actions) runs install → prisma generate →
+generated-client drift check → lint → typecheck → test → build with a
+PostgreSQL service container.
 
-```
-apps/api   NestJS REST API (ESM)
-apps/web   React + Vite client
-```
+## API
 
-## Data model
+Base URL `http://localhost:3000/api`. Full request/response schemas live in
+Swagger (`/docs`) and in `packages/api-client/openapi.json`.
 
-PostgreSQL is the authoritative source of truth.
+| Method | Path                 | Description                                      |
+| ------ | -------------------- | ------------------------------------------------ |
+| GET    | `/health`            | Liveness probe                                   |
+| GET    | `/announcements`     | List; `search`, `categoryIds`, `page`, `limit`   |
+| POST   | `/announcements`     | Create (requires ≥1 existing category)           |
+| GET    | `/announcements/:id` | Single announcement                              |
+| PATCH  | `/announcements/:id` | Partial update; `categoryIds` replaces the set   |
+| DELETE | `/announcements/:id` | Delete (204)                                     |
+| GET    | `/categories`        | All categories, alphabetical                     |
+| POST   | `/categories`        | Create; duplicate names (case-insensitive) → 409 |
 
-- **Announcement** — `id`, `title`, `body`, `publicationDate`, `lastUpdate`, `createdAt`, and a
-  many-to-many relation to categories.
-- **Category** — `id`, `name`, `normalizedName`, `createdAt`, `updatedAt`.
+Every non-2xx response uses one error contract:
 
-`Announcement` ↔ `Category` is a plain implicit many-to-many relation. The join carries no
-attributes of its own, so no explicit join entity exists.
-
-`lastUpdate` is server-managed and is never accepted from a client.
-
-### Category name normalization
-
-`Category.name` holds the human-readable form (`"Crime & Safety"`). `Category.normalizedName` holds
-a deterministic lowercase form (`"crime & safety"`) and carries a **unique** database constraint, so
-`"Health"`, `"health"` and `" HEALTH "` are all rejected as duplicates. The visible name is never
-lowercased.
-
-## Database commands
-
-```bash
-npm run db:generate   # regenerate the Prisma client
-npm run db:migrate    # create and apply a migration
-npm run db:seed       # deterministic seed (idempotent)
-npm run db:studio     # browse data
-```
-
-The Prisma client is generated into `apps/api/src/generated/prisma` and is git-ignored; run
-`npm run db:generate` after cloning or changing the schema.
-
-## Infrastructure
-
-```bash
-npm run infra:up     # start PostgreSQL, wait for healthy
-npm run infra:down   # stop and remove containers
-npm run infra:logs   # follow PostgreSQL logs
+```json
+{
+  "statusCode": 400,
+  "code": "VALIDATION_ERROR",
+  "message": "Validation failed",
+  "errors": { "title": ["Title is required"] }
+}
 ```
 
-## Notes
+`GET /announcements` supports free-text search over title **and** body
+(case-insensitive), ANY-match category filtering (`categoryIds=id1,id2` or
+repeated params), and pagination (`page`, `limit` ≤ 100, default 20 —
+the web client uses 5 to make pagination visible with seed data). Results are
+always ordered by `lastUpdate DESC`.
 
-`npm audit` reports advisories in `deepmerge-ts` and `mysql2`. Both are transitive dependencies of
-the **Prisma CLI**, which is a devDependency; `mysql2` is never loaded because this project uses
-PostgreSQL. `npm audit fix --force` would downgrade the CLI to Prisma 6 and desynchronise it from
-`@prisma/client` 7, so the advisories are accepted rather than "fixed".
+### Realtime (bonus)
+
+Creating an announcement emits an application event after the PostgreSQL
+commit; a listener broadcasts `announcement.created` over Socket.IO. Every
+connected client shows an in-app toast and refreshes its list without a
+reload. Open two browser windows, create an announcement in one, watch the
+other update.
+
+## Dates
+
+The written specification's `MM/DD/YYYY HH:mm` format governs the UI: the
+publication date is displayed and entered in that format (with a calendar +
+time picker), interpreted as local time, and converted to ISO 8601 for the
+API, which stores real timestamps. `lastUpdate` is server-managed — set on
+create and refreshed on every meaningful update, including category-only
+changes — and is never accepted from a client.
+
+## Repository layout
+
+```
+apps/api             NestJS REST API (ESM, Prisma 7 + driver adapter)
+  src/announcements  controller / service / repository / DTOs
+  src/categories     controller / service / repository / normalization
+  src/events         application events emitted after successful writes
+  src/realtime       Socket.IO gateway + event listener
+  src/common         error contract, exception filter, validation factory
+  test               integration suite (boots dist/ against a test DB)
+apps/web             React 19 + Vite client
+  src/app            providers, router, entry
+  src/layouts        admin shell (sidebar / mobile drawer)
+  src/features       announcement components, hooks, schemas, utils
+  src/shared         design tokens, UI kit, cross-cutting hooks
+packages/api-client  OpenAPI spec + generated client + fetch transport
+```
