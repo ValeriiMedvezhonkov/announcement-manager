@@ -1,0 +1,102 @@
+.table {
+  width: 100%;
+  margin-top: 24px;
+  border-collapse: collapse;
+}
+
+.th {
+  padding: 10px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.thAction {
+  composes: th;
+  width: 56px;
+}
+
+.row:hover {
+  background-color: var(--surface-sunken);
+}
+
+.td,
+.tdTitle,
+.tdDate,
+.tdAction {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.tdTitle {
+  max-width: 380px;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink-strong);
+}
+
+.td {
+  color: var(--ink-body);
+}
+
+.tdDate {
+  width: 150px;
+  white-space: nowrap;
+}
+
+.dateMain {
+  display: block;
+  color: var(--ink-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.dateSub {
+  display: block;
+  margin-top: 1px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.tdAction {
+  text-align: right;
+}
+
+.chips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.editLink {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: var(--ink-muted);
+  border-radius: var(--radius-md);
+  transition:
+    color 120ms ease,
+    background-color 120ms ease;
+}
+
+.editLink:hover {
+  color: var(--ink-strong);
+  background-color: var(--border-subtle);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

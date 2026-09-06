@@ -1,0 +1,17 @@
+.confirmGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.confirmText {
+  font-weight: 700;
+  color: var(--danger);
+}
+
+@media (max-width: 767px) {
+  .confirmGroup {
+    flex-wrap: wrap;
+  }
+}

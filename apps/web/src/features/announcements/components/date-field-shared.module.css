@@ -1,0 +1,73 @@
+/*
+ * Shared by both PublicationDateField variants: the field input skin
+ * (react-datepicker renders its own <input>, so this must be CSS, not a
+ * component) and the calendar theme applied via calendarClassName.
+ */
+
+.picker input,
+.pickerInvalid input {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--ink-body);
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+.picker input:focus {
+  outline: none;
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 1px var(--focus-ring);
+}
+
+.pickerInvalid input {
+  border-color: var(--danger);
+}
+
+/* An invalid field stays visibly invalid even while focused. */
+.pickerInvalid input:focus {
+  outline: none;
+  border-color: var(--danger);
+  box-shadow: 0 0 0 1px var(--danger);
+}
+
+/* --- calendar theming (dropdown and inline via calendarClassName) --- */
+
+.calendar {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+  overflow: hidden;
+}
+
+.calendar :global(.react-datepicker__header) {
+  background-color: var(--surface-sunken);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.calendar :global(.react-datepicker__current-month),
+.calendar :global(.react-datepicker-time__header) {
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+.calendar :global(.react-datepicker__day--selected),
+.calendar :global(.react-datepicker__day--keyboard-selected),
+.calendar :global(.react-datepicker__time-list-item--selected:not([disabled])) {
+  color: var(--primary-ink) !important;
+  background-color: var(--primary) !important;
+  font-weight: 700;
+}
+
+.calendar :global(.react-datepicker__day:hover),
+.calendar :global(.react-datepicker__time-list-item:hover:not([disabled])) {
+  background-color: var(--accent-soft);
+}
+
+.calendar :global(.react-datepicker__day--today) {
+  font-weight: 700;
+  color: var(--accent-soft-ink);
+}

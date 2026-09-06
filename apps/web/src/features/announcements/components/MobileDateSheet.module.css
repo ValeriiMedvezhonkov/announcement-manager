@@ -1,0 +1,75 @@
+/* Inline calendar stretched across the mobile bottom sheet. */
+.sheetCalendar {
+  padding: 0 8px 20px;
+}
+
+.sheetCalendar :global(.react-datepicker) {
+  display: flex;
+  width: 100%;
+  font-size: 14px;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sheetCalendar :global(.react-datepicker__month-container) {
+  flex: 1;
+  min-width: 0;
+}
+
+.sheetCalendar :global(.react-datepicker__header) {
+  padding-top: 12px;
+  background-color: transparent;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sheetCalendar :global(.react-datepicker__current-month) {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.sheetCalendar :global(.react-datepicker__day-names),
+.sheetCalendar :global(.react-datepicker__week) {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sheetCalendar :global(.react-datepicker__day-name),
+.sheetCalendar :global(.react-datepicker__day) {
+  flex: 1;
+  max-width: none;
+  margin: 2px;
+  font-size: 14px;
+  line-height: 2.4;
+  border-radius: var(--radius-md);
+}
+
+.sheetCalendar :global(.react-datepicker__month) {
+  margin: 6px;
+}
+
+.sheetCalendar :global(.react-datepicker__navigation) {
+  top: 10px;
+}
+
+.sheetCalendar :global(.react-datepicker__time-container) {
+  width: 96px;
+  border-left: 1px solid var(--border-subtle);
+}
+
+.sheetCalendar :global(.react-datepicker__time-container .react-datepicker__time-box) {
+  width: 100%;
+}
+
+.sheetCalendar :global(.react-datepicker__time-list-item) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto !important;
+  padding: 10px 8px !important;
+  font-size: 14px;
+}
+
+.sheetCalendar :global(.react-datepicker__time-list) {
+  height: 260px !important;
+}

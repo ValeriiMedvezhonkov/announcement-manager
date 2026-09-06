@@ -1,0 +1,8 @@
+.wrapper :global(.react-datepicker-wrapper) {
+  display: block;
+}
+
+:global(#datepicker-portal) {
+  position: relative;
+  z-index: 80;
+}
