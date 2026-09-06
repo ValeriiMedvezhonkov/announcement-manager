@@ -6,16 +6,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { notify } from '../shared/lib/notify.ts';
+import { notify } from '@shared/lib/notify.ts';
 
-import { AnnouncementForm } from '../features/announcements/components/AnnouncementForm.tsx';
-import { describeApiError } from '../features/announcements/utils/api-errors.ts';
-import type { AnnouncementFormValues } from '../features/announcements/schemas/announcement-form.schema.ts';
+import { AnnouncementForm } from '@features/announcements/components/AnnouncementForm.tsx';
+import { describeApiError } from '@features/announcements/utils/api-errors.ts';
+import type { AnnouncementFormValues } from '@features/announcements/schemas/announcement-form.schema.ts';
 import {
   parsePublicationDate,
   PUBLICATION_DATE_FORMAT,
-} from '../features/announcements/utils/dates.ts';
-import { t } from '../shared/i18n/index.ts';
+} from '@features/announcements/utils/dates.ts';
+import { t } from '@shared/i18n/index.ts';
 
 export function CreateAnnouncementPage() {
   const navigate = useNavigate();

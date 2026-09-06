@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useBodyScrollLock } from '../../lib/useBodyScrollLock.ts';
+import { useBodyScrollLock } from '@shared/lib/useBodyScrollLock.ts';
 import { SHEET_ANIMATION_MS, useSheetDrag } from './useSheetDrag.ts';
 import styles from './Sheet.module.css';
 

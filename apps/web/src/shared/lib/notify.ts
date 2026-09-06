@@ -1,6 +1,6 @@
 import { toast } from 'sonner';
 
-import toastStyles from '../ui/toast/AppToaster.module.css';
+import toastStyles from '@shared/ui/toast/AppToaster.module.css';
 
 /**
  * Central notification facade. Every toast in the app goes through here, so

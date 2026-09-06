@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { parsePublicationDate } from '../utils/dates.ts';
-import { t } from '../../../shared/i18n/index.ts';
+import { parsePublicationDate } from '@features/announcements/utils/dates.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /** Client-side mirror of the API rules; the API remains authoritative. */
 export const announcementFormSchema = z.object({

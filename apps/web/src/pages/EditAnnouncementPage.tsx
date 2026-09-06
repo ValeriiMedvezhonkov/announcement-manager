@@ -9,20 +9,20 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
-import { notify } from '../shared/lib/notify.ts';
+import { notify } from '@shared/lib/notify.ts';
 
-import { AnnouncementForm } from '../features/announcements/components/AnnouncementForm.tsx';
-import { DeleteAnnouncementAction } from '../features/announcements/components/DeleteAnnouncementAction.tsx';
-import type { AnnouncementFormValues } from '../features/announcements/schemas/announcement-form.schema.ts';
-import { describeApiError } from '../features/announcements/utils/api-errors.ts';
+import { AnnouncementForm } from '@features/announcements/components/AnnouncementForm.tsx';
+import { DeleteAnnouncementAction } from '@features/announcements/components/DeleteAnnouncementAction.tsx';
+import type { AnnouncementFormValues } from '@features/announcements/schemas/announcement-form.schema.ts';
+import { describeApiError } from '@features/announcements/utils/api-errors.ts';
 import {
   formatPublicationDate,
   parsePublicationDate,
-} from '../features/announcements/utils/dates.ts';
-import { Button } from '../shared/ui/Button.tsx';
-import { StateCard } from '../shared/ui/StateCard.tsx';
+} from '@features/announcements/utils/dates.ts';
+import { Button } from '@shared/ui/Button.tsx';
+import { StateCard } from '@shared/ui/StateCard.tsx';
 import styles from './EditAnnouncementPage.module.css';
-import { t } from '../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 export function EditAnnouncementPage() {
   const { id = '' } = useParams();

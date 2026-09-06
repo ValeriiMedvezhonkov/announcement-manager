@@ -2,7 +2,7 @@ import { Search } from 'lucide-react';
 
 import { CategorySelect, type CategoryOption } from './CategorySelect.tsx';
 import styles from './AnnouncementsToolbar.module.css';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 interface AnnouncementsToolbarProps {
   searchValue: string;

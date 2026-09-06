@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, type ReactNode } from 'react';
 
-import { useAnnouncementRealtime } from '../../features/announcements/hooks/useAnnouncementRealtime.ts';
-import { ErrorBoundary } from '../../shared/ui/ErrorBoundary.tsx';
-import { AppToaster } from '../../shared/ui/toast/AppToaster.tsx';
+import { useAnnouncementRealtime } from '@features/announcements/hooks/useAnnouncementRealtime.ts';
+import { ErrorBoundary } from '@shared/ui/ErrorBoundary.tsx';
+import { AppToaster } from '@shared/ui/toast/AppToaster.tsx';
 
 interface AppProvidersProps {
   children: ReactNode;

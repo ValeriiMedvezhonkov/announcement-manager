@@ -2,10 +2,13 @@ import type { AnnouncementResponseDto } from '@announcement-manager/api-client';
 import { Pencil } from 'lucide-react';
 import { Link } from 'react-router';
 
-import { CategoryChip } from '../../../shared/ui/CategoryChip.tsx';
-import { formatPublicationDate, formatRelativeUpdate } from '../utils/dates.ts';
+import { CategoryChip } from '@shared/ui/CategoryChip.tsx';
+import {
+  formatPublicationDate,
+  formatRelativeUpdate,
+} from '@features/announcements/utils/dates.ts';
 import styles from './AnnouncementCardList.module.css';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /** Mobile card list; each card links to the announcement's edit page. */
 export function AnnouncementCardList({ items }: { items: AnnouncementResponseDto[] }) {

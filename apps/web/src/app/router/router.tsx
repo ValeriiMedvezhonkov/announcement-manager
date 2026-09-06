@@ -1,9 +1,9 @@
 import { lazy, Suspense, type ComponentType } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 
-import { AdminLayout } from '../../layouts/AdminLayout/AdminLayout.tsx';
-import { PageLoader } from '../../shared/ui/PageLoader.tsx';
-import { RouteErrorFallback } from '../../shared/ui/RouteErrorFallback.tsx';
+import { AdminLayout } from '@layouts/AdminLayout/AdminLayout.tsx';
+import { PageLoader } from '@shared/ui/PageLoader.tsx';
+import { RouteErrorFallback } from '@shared/ui/RouteErrorFallback.tsx';
 
 /**
  * Pages are code-split per route: the list is the landing experience, while

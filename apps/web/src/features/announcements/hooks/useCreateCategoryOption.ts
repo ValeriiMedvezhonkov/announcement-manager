@@ -6,10 +6,10 @@ import {
   type CategoryResponseDto,
 } from '@announcement-manager/api-client';
 import { useQueryClient } from '@tanstack/react-query';
-import { notify } from '../../../shared/lib/notify.ts';
+import { notify } from '@shared/lib/notify.ts';
 
-import type { CategoryOption } from '../components/CategorySelect.tsx';
-import { t } from '../../../shared/i18n/index.ts';
+import type { CategoryOption } from '@features/announcements/components/CategorySelect.tsx';
+import { t } from '@shared/i18n/index.ts';
 
 /**
  * Inline category creation for the form's CreatableSelect.

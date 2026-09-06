@@ -1,9 +1,9 @@
 import { Link } from 'react-router';
 
-import { Button } from '../shared/ui/Button.tsx';
-import { StateCard } from '../shared/ui/StateCard.tsx';
+import { Button } from '@shared/ui/Button.tsx';
+import { StateCard } from '@shared/ui/StateCard.tsx';
 import styles from './NotFoundPage.module.css';
-import { t } from '../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 export function NotFoundPage() {
   return (

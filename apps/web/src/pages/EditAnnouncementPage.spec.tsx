@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { renderPage } from '../test/render.tsx';
+import { renderPage } from '@test/render.tsx';
 import { EditAnnouncementPage } from './EditAnnouncementPage.tsx';
 
 function renderEdit(id: string) {

@@ -1,7 +1,7 @@
 import { Landmark } from 'lucide-react';
 
 import styles from './Brand.module.css';
-import { t } from '../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /** Application brand row: icon tile + name. */
 export function Brand() {

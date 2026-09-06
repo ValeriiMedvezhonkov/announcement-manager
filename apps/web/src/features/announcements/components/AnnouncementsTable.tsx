@@ -2,10 +2,14 @@ import type { AnnouncementResponseDto } from '@announcement-manager/api-client';
 import { Pencil } from 'lucide-react';
 import { Link } from 'react-router';
 
-import { CategoryChip } from '../../../shared/ui/CategoryChip.tsx';
-import { formatLastUpdate, formatRelativeUpdate, splitDateParts } from '../utils/dates.ts';
+import { CategoryChip } from '@shared/ui/CategoryChip.tsx';
+import {
+  formatLastUpdate,
+  formatRelativeUpdate,
+  splitDateParts,
+} from '@features/announcements/utils/dates.ts';
 import styles from './AnnouncementsTable.module.css';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /** Two-line date cell: primary reading on top, secondary muted below. */
 function DateCell({ main, sub }: { main: string; sub: string }) {

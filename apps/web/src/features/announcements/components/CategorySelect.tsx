@@ -3,13 +3,13 @@ import type { GroupBase, MenuProps } from 'react-select';
 import Select, { components } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
-import { useBodyScrollLock } from '../../../shared/lib/useBodyScrollLock.ts';
-import { useIsMobile } from '../../../shared/lib/useMediaQuery.ts';
-import { SHEET_ANIMATION_MS, useSheetDrag } from '../../../shared/ui/sheet/useSheetDrag.ts';
-import sheetStyles from '../../../shared/ui/sheet/Sheet.module.css';
-import { useMenuPlacement } from '../hooks/useMenuPlacement.ts';
+import { useBodyScrollLock } from '@shared/lib/useBodyScrollLock.ts';
+import { useIsMobile } from '@shared/lib/useMediaQuery.ts';
+import { SHEET_ANIMATION_MS, useSheetDrag } from '@shared/ui/sheet/useSheetDrag.ts';
+import sheetStyles from '@shared/ui/sheet/Sheet.module.css';
+import { useMenuPlacement } from '@features/announcements/hooks/useMenuPlacement.ts';
 import { buildCategorySelectStyles } from './category-select-styles.ts';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 export interface CategoryOption {
   value: string;

@@ -1,5 +1,5 @@
 import { ApiError } from '@announcement-manager/api-client';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /** Maps API errors onto a readable submit-error message. */
 export function describeApiError(error: unknown): string {

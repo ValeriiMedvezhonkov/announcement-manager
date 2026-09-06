@@ -3,8 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-import { notify } from '../../../shared/lib/notify.ts';
-import { t } from '../../../shared/i18n/index.ts';
+import { notify } from '@shared/lib/notify.ts';
+import { t } from '@shared/i18n/index.ts';
 
 interface AnnouncementCreatedPayload {
   id: string;

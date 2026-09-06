@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { BottomSheet } from '../../../shared/ui/sheet/BottomSheet.tsx';
-import { formatDateInput, parsePublicationDate } from '../utils/dates.ts';
+import { BottomSheet } from '@shared/ui/sheet/BottomSheet.tsx';
+import { formatDateInput, parsePublicationDate } from '@features/announcements/utils/dates.ts';
 import shared from './date-field-shared.module.css';
 import styles from './MobileDateSheet.module.css';
 
 import type { PublicationDateFieldProps } from './PublicationDateField.tsx';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /**
  * Mobile variant: a read-only field that opens the shared bottom sheet with

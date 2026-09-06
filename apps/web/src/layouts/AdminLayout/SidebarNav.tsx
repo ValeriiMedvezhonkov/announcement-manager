@@ -2,7 +2,7 @@ import { Megaphone } from 'lucide-react';
 import { NavLink } from 'react-router';
 
 import styles from './SidebarNav.module.css';
-import { t } from '../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 interface SidebarNavProps {
   /** Called on navigation so the mobile drawer can close itself. */

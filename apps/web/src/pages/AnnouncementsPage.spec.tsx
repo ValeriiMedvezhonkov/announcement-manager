@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
-import { server } from '../test/msw-server.ts';
-import { renderPage } from '../test/render.tsx';
+import { server } from '@test/msw-server.ts';
+import { renderPage } from '@test/render.tsx';
 import { AnnouncementsPage } from './AnnouncementsPage.tsx';
 
 const API = 'http://localhost:3000/api';

@@ -1,4 +1,4 @@
-import { useIsMobile } from '../../../shared/lib/useMediaQuery.ts';
+import { useIsMobile } from '@shared/lib/useMediaQuery.ts';
 import { DesktopDatePicker } from './DesktopDatePicker.tsx';
 import { MobileDateSheet } from './MobileDateSheet.tsx';
 import 'react-datepicker/dist/react-datepicker.css';

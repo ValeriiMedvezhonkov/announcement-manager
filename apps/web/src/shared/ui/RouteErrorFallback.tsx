@@ -2,7 +2,7 @@ import { useRouteError } from 'react-router';
 
 import { Button } from './Button.tsx';
 import { StateCard } from './StateCard.tsx';
-import { t } from '../i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /**
  * Route-level error element: the data router catches render/loader errors

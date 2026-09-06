@@ -2,19 +2,19 @@ import { useListCategories } from '@announcement-manager/api-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 
-import { BackLink } from '../../../shared/ui/BackLink.tsx';
-import { Button } from '../../../shared/ui/Button.tsx';
-import { FormErrorSummary } from '../../../shared/ui/FormErrorSummary.tsx';
-import { FormField } from '../../../shared/ui/FormField.tsx';
+import { BackLink } from '@shared/ui/BackLink.tsx';
+import { Button } from '@shared/ui/Button.tsx';
+import { FormErrorSummary } from '@shared/ui/FormErrorSummary.tsx';
+import { FormField } from '@shared/ui/FormField.tsx';
 import {
   announcementFormSchema,
   type AnnouncementFormValues,
-} from '../schemas/announcement-form.schema.ts';
-import { useCreateCategoryOption } from '../hooks/useCreateCategoryOption.ts';
+} from '@features/announcements/schemas/announcement-form.schema.ts';
+import { useCreateCategoryOption } from '@features/announcements/hooks/useCreateCategoryOption.ts';
 import { CategorySelect, type CategoryOption } from './CategorySelect.tsx';
 import { PublicationDateField } from './PublicationDateField.tsx';
 import styles from './AnnouncementForm.module.css';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 interface AnnouncementFormProps {
   title: string;

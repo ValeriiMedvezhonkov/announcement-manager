@@ -2,13 +2,13 @@ import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import { Outlet } from 'react-router';
 
-import { useIsMobile } from '../../shared/lib/useMediaQuery.ts';
-import { IconButton } from '../../shared/ui/IconButton.tsx';
+import { useIsMobile } from '@shared/lib/useMediaQuery.ts';
+import { IconButton } from '@shared/ui/IconButton.tsx';
 import { Brand } from './Brand.tsx';
 import { MobileDrawer } from './MobileDrawer.tsx';
 import { SidebarNav } from './SidebarNav.tsx';
 import styles from './AdminLayout.module.css';
-import { t } from '../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /**
  * Application chrome: brand + navigation sidebar and a content header.

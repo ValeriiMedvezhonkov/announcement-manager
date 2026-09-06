@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { renderPage } from '../../../test/render.tsx';
+import { renderPage } from '@test/render.tsx';
 import { AnnouncementForm } from './AnnouncementForm.tsx';
 
 function renderForm(onSubmit = vi.fn()) {

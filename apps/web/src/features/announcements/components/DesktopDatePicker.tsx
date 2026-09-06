@@ -1,13 +1,13 @@
 import { useCallback, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { useOutsidePointerDown } from '../../../shared/lib/useOutsidePointerDown.ts';
-import { formatDateInput, parsePublicationDate } from '../utils/dates.ts';
+import { useOutsidePointerDown } from '@shared/lib/useOutsidePointerDown.ts';
+import { formatDateInput, parsePublicationDate } from '@features/announcements/utils/dates.ts';
 import shared from './date-field-shared.module.css';
 import styles from './DesktopDatePicker.module.css';
 
 import type { PublicationDateFieldProps } from './PublicationDateField.tsx';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 /**
  * Desktop variant: calendar + time dropdown attached to the input.

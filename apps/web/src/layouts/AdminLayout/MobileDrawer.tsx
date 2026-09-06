@@ -1,12 +1,12 @@
 import { X } from 'lucide-react';
 import { useEffect } from 'react';
 
-import { useBodyScrollLock } from '../../shared/lib/useBodyScrollLock.ts';
-import { IconButton } from '../../shared/ui/IconButton.tsx';
+import { useBodyScrollLock } from '@shared/lib/useBodyScrollLock.ts';
+import { IconButton } from '@shared/ui/IconButton.tsx';
 import { Brand } from './Brand.tsx';
 import { SidebarNav } from './SidebarNav.tsx';
 import styles from './MobileDrawer.module.css';
-import { t } from '../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 interface MobileDrawerProps {
   open: boolean;

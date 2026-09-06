@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import { Button } from '../../../shared/ui/Button.tsx';
+import { Button } from '@shared/ui/Button.tsx';
 import styles from './DeleteAnnouncementAction.module.css';
-import { t } from '../../../shared/i18n/index.ts';
+import { t } from '@shared/i18n/index.ts';
 
 interface DeleteAnnouncementActionProps {
   pending: boolean;
