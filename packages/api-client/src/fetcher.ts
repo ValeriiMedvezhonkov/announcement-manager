@@ -14,9 +14,12 @@ export interface ApiErrorBody {
 }
 
 export class ApiError extends Error {
-  constructor(readonly body: ApiErrorBody) {
+  readonly body: ApiErrorBody;
+
+  constructor(body: ApiErrorBody) {
     super(body.message);
     this.name = 'ApiError';
+    this.body = body;
   }
 }
 
@@ -32,12 +35,16 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
   // ends with it, so strip the duplicate before joining.
   const path = url.startsWith('/api') ? url.slice(4) : url;
 
+  // Headers dedupe case-insensitively; a plain object spread would not, and
+  // duplicate content-type headers make Express reject the JSON body.
+  const headers = new Headers(options?.headers);
+  if (!headers.has('content-type')) {
+    headers.set('content-type', 'application/json');
+  }
+
   const response = await fetch(`${BASE_URL}${path}`, {
     ...options,
-    headers: {
-      'content-type': 'application/json',
-      ...options?.headers,
-    },
+    headers,
   });
 
   if (response.status === 204) {

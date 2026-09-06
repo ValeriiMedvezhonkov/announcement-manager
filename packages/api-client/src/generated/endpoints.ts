@@ -61,18 +61,6 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export type getHealthResponse200 = {
-  data: HealthResponseDto
-  status: 200
-}
-
-export type getHealthResponseSuccess = (getHealthResponse200) & {
-  headers: Headers;
-};
-;
-
-export type getHealthResponse = (getHealthResponseSuccess)
-
 export const getGetHealthUrl = () => {
 
 
@@ -84,9 +72,9 @@ export const getGetHealthUrl = () => {
 /**
  * @summary Liveness probe
  */
-export const getHealth = async ( options?: Parameters<typeof fetcher>[1]): Promise<getHealthResponse> => {
+export const getHealth = async ( options?: Parameters<typeof fetcher>[1]): Promise<HealthResponseDto> => {
 
-  return fetcher<getHealthResponse>(getGetHealthUrl(),
+  return fetcher<HealthResponseDto>(getGetHealthUrl(),
   {
     ...options,
     method: 'GET'
@@ -174,25 +162,6 @@ export function useGetHealth<TData = Awaited<ReturnType<typeof getHealth>>, TErr
 
 
 
-export type listAnnouncementsResponse200 = {
-  data: AnnouncementListResponseDto
-  status: 200
-}
-
-export type listAnnouncementsResponse400 = {
-  data: ApiErrorResponseDto
-  status: 400
-}
-
-export type listAnnouncementsResponseSuccess = (listAnnouncementsResponse200) & {
-  headers: Headers;
-};
-export type listAnnouncementsResponseError = (listAnnouncementsResponse400) & {
-  headers: Headers;
-};
-
-export type listAnnouncementsResponse = (listAnnouncementsResponseSuccess | listAnnouncementsResponseError)
-
 export const getListAnnouncementsUrl = (params?: ListAnnouncementsParams,) => {
   const normalizedParams = new URLSearchParams();
 
@@ -220,9 +189,9 @@ export const getListAnnouncementsUrl = (params?: ListAnnouncementsParams,) => {
  * Supports full-text search over title and body, ANY-match category filtering and pagination. Always ordered by lastUpdate descending.
  * @summary List announcements
  */
-export const listAnnouncements = async (params?: ListAnnouncementsParams, options?: Parameters<typeof fetcher>[1]): Promise<listAnnouncementsResponse> => {
+export const listAnnouncements = async (params?: ListAnnouncementsParams, options?: Parameters<typeof fetcher>[1]): Promise<AnnouncementListResponseDto> => {
 
-  return fetcher<listAnnouncementsResponse>(getListAnnouncementsUrl(params),
+  return fetcher<AnnouncementListResponseDto>(getListAnnouncementsUrl(params),
   {
     ...options,
     method: 'GET'
@@ -310,25 +279,6 @@ export function useListAnnouncements<TData = Awaited<ReturnType<typeof listAnnou
 
 
 
-export type createAnnouncementResponse201 = {
-  data: AnnouncementResponseDto
-  status: 201
-}
-
-export type createAnnouncementResponse400 = {
-  data: ApiErrorResponseDto
-  status: 400
-}
-
-export type createAnnouncementResponseSuccess = (createAnnouncementResponse201) & {
-  headers: Headers;
-};
-export type createAnnouncementResponseError = (createAnnouncementResponse400) & {
-  headers: Headers;
-};
-
-export type createAnnouncementResponse = (createAnnouncementResponseSuccess | createAnnouncementResponseError)
-
 export const getCreateAnnouncementUrl = () => {
 
 
@@ -341,7 +291,7 @@ export const getCreateAnnouncementUrl = () => {
  * Requires at least one existing category. lastUpdate is server-managed and cannot be supplied.
  * @summary Create an announcement
  */
-export const createAnnouncement = async (createAnnouncementDto: CreateAnnouncementDto, options?: Parameters<typeof fetcher>[1]): Promise<createAnnouncementResponse> => {
+export const createAnnouncement = async (createAnnouncementDto: CreateAnnouncementDto, options?: Parameters<typeof fetcher>[1]): Promise<AnnouncementResponseDto> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -349,7 +299,7 @@ export const createAnnouncement = async (createAnnouncementDto: CreateAnnounceme
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-return fetcher<createAnnouncementResponse>(getCreateAnnouncementUrl(),
+return fetcher<AnnouncementResponseDto>(getCreateAnnouncementUrl(),
   {
     ...options,
     method: 'POST',
@@ -410,30 +360,6 @@ export const useCreateAnnouncement = <TError = ApiErrorResponseDto,
       return useMutation(getCreateAnnouncementMutationOptions(options), queryClient);
     }
 
-export type getAnnouncementResponse200 = {
-  data: AnnouncementResponseDto
-  status: 200
-}
-
-export type getAnnouncementResponse400 = {
-  data: ApiErrorResponseDto
-  status: 400
-}
-
-export type getAnnouncementResponse404 = {
-  data: ApiErrorResponseDto
-  status: 404
-}
-
-export type getAnnouncementResponseSuccess = (getAnnouncementResponse200) & {
-  headers: Headers;
-};
-export type getAnnouncementResponseError = (getAnnouncementResponse400 | getAnnouncementResponse404) & {
-  headers: Headers;
-};
-
-export type getAnnouncementResponse = (getAnnouncementResponseSuccess | getAnnouncementResponseError)
-
 export const getGetAnnouncementUrl = (id: string,) => {
 
 
@@ -445,9 +371,9 @@ export const getGetAnnouncementUrl = (id: string,) => {
 /**
  * @summary Get a single announcement
  */
-export const getAnnouncement = async (id: string, options?: Parameters<typeof fetcher>[1]): Promise<getAnnouncementResponse> => {
+export const getAnnouncement = async (id: string, options?: Parameters<typeof fetcher>[1]): Promise<AnnouncementResponseDto> => {
 
-  return fetcher<getAnnouncementResponse>(getGetAnnouncementUrl(id),
+  return fetcher<AnnouncementResponseDto>(getGetAnnouncementUrl(id),
   {
     ...options,
     method: 'GET'
@@ -535,30 +461,6 @@ export function useGetAnnouncement<TData = Awaited<ReturnType<typeof getAnnounce
 
 
 
-export type updateAnnouncementResponse200 = {
-  data: AnnouncementResponseDto
-  status: 200
-}
-
-export type updateAnnouncementResponse400 = {
-  data: ApiErrorResponseDto
-  status: 400
-}
-
-export type updateAnnouncementResponse404 = {
-  data: ApiErrorResponseDto
-  status: 404
-}
-
-export type updateAnnouncementResponseSuccess = (updateAnnouncementResponse200) & {
-  headers: Headers;
-};
-export type updateAnnouncementResponseError = (updateAnnouncementResponse400 | updateAnnouncementResponse404) & {
-  headers: Headers;
-};
-
-export type updateAnnouncementResponse = (updateAnnouncementResponseSuccess | updateAnnouncementResponseError)
-
 export const getUpdateAnnouncementUrl = (id: string,) => {
 
 
@@ -572,7 +474,7 @@ export const getUpdateAnnouncementUrl = (id: string,) => {
  * @summary Update an announcement
  */
 export const updateAnnouncement = async (id: string,
-    updateAnnouncementDto: UpdateAnnouncementDto, options?: Parameters<typeof fetcher>[1]): Promise<updateAnnouncementResponse> => {
+    updateAnnouncementDto: UpdateAnnouncementDto, options?: Parameters<typeof fetcher>[1]): Promise<AnnouncementResponseDto> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -580,7 +482,7 @@ export const updateAnnouncement = async (id: string,
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-return fetcher<updateAnnouncementResponse>(getUpdateAnnouncementUrl(id),
+return fetcher<AnnouncementResponseDto>(getUpdateAnnouncementUrl(id),
   {
     ...options,
     method: 'PATCH',
@@ -641,25 +543,6 @@ export const useUpdateAnnouncement = <TError = ApiErrorResponseDto,
       return useMutation(getUpdateAnnouncementMutationOptions(options), queryClient);
     }
 
-export type deleteAnnouncementResponse204 = {
-  data: void
-  status: 204
-}
-
-export type deleteAnnouncementResponse404 = {
-  data: ApiErrorResponseDto
-  status: 404
-}
-
-export type deleteAnnouncementResponseSuccess = (deleteAnnouncementResponse204) & {
-  headers: Headers;
-};
-export type deleteAnnouncementResponseError = (deleteAnnouncementResponse404) & {
-  headers: Headers;
-};
-
-export type deleteAnnouncementResponse = (deleteAnnouncementResponseSuccess | deleteAnnouncementResponseError)
-
 export const getDeleteAnnouncementUrl = (id: string,) => {
 
 
@@ -671,9 +554,9 @@ export const getDeleteAnnouncementUrl = (id: string,) => {
 /**
  * @summary Delete an announcement
  */
-export const deleteAnnouncement = async (id: string, options?: Parameters<typeof fetcher>[1]): Promise<deleteAnnouncementResponse> => {
+export const deleteAnnouncement = async (id: string, options?: Parameters<typeof fetcher>[1]): Promise<void> => {
 
-  return fetcher<deleteAnnouncementResponse>(getDeleteAnnouncementUrl(id),
+  return fetcher<void>(getDeleteAnnouncementUrl(id),
   {
     ...options,
     method: 'DELETE'
@@ -734,18 +617,6 @@ export const useDeleteAnnouncement = <TError = ApiErrorResponseDto,
       return useMutation(getDeleteAnnouncementMutationOptions(options), queryClient);
     }
 
-export type listCategoriesResponse200 = {
-  data: CategoryResponseDto[]
-  status: 200
-}
-
-export type listCategoriesResponseSuccess = (listCategoriesResponse200) & {
-  headers: Headers;
-};
-;
-
-export type listCategoriesResponse = (listCategoriesResponseSuccess)
-
 export const getListCategoriesUrl = () => {
 
 
@@ -757,9 +628,9 @@ export const getListCategoriesUrl = () => {
 /**
  * @summary List all categories alphabetically
  */
-export const listCategories = async ( options?: Parameters<typeof fetcher>[1]): Promise<listCategoriesResponse> => {
+export const listCategories = async ( options?: Parameters<typeof fetcher>[1]): Promise<CategoryResponseDto[]> => {
 
-  return fetcher<listCategoriesResponse>(getListCategoriesUrl(),
+  return fetcher<CategoryResponseDto[]>(getListCategoriesUrl(),
   {
     ...options,
     method: 'GET'
@@ -847,30 +718,6 @@ export function useListCategories<TData = Awaited<ReturnType<typeof listCategori
 
 
 
-export type createCategoryResponse201 = {
-  data: CategoryResponseDto
-  status: 201
-}
-
-export type createCategoryResponse400 = {
-  data: ApiErrorResponseDto
-  status: 400
-}
-
-export type createCategoryResponse409 = {
-  data: ApiErrorResponseDto
-  status: 409
-}
-
-export type createCategoryResponseSuccess = (createCategoryResponse201) & {
-  headers: Headers;
-};
-export type createCategoryResponseError = (createCategoryResponse400 | createCategoryResponse409) & {
-  headers: Headers;
-};
-
-export type createCategoryResponse = (createCategoryResponseSuccess | createCategoryResponseError)
-
 export const getCreateCategoryUrl = () => {
 
 
@@ -883,7 +730,7 @@ export const getCreateCategoryUrl = () => {
  * Category names are unique case-insensitively: "Health", "health" and "  HEALTH  " are considered the same category.
  * @summary Create a category
  */
-export const createCategory = async (createCategoryDto: CreateCategoryDto, options?: Parameters<typeof fetcher>[1]): Promise<createCategoryResponse> => {
+export const createCategory = async (createCategoryDto: CreateCategoryDto, options?: Parameters<typeof fetcher>[1]): Promise<CategoryResponseDto> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -891,7 +738,7 @@ export const createCategory = async (createCategoryDto: CreateCategoryDto, optio
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-return fetcher<createCategoryResponse>(getCreateCategoryUrl(),
+return fetcher<CategoryResponseDto>(getCreateCategoryUrl(),
   {
     ...options,
     method: 'POST',

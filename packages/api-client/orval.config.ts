@@ -18,6 +18,10 @@ export default defineConfig({
           path: './src/fetcher.ts',
           name: 'fetcher',
         },
+        fetch: {
+          // The fetcher already unwraps JSON; hooks should return the DTO itself.
+          includeHttpResponseReturnType: false,
+        },
       },
     },
   },
