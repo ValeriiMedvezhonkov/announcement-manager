@@ -44,9 +44,13 @@ export function EditAnnouncementPage() {
   }
 
   if (announcementQuery.isError) {
+    // A malformed id yields 400 from ParseUUIDPipe; for the reader that is
+    // the same situation as 404 — this announcement does not exist, and
+    // retrying the same URL can never succeed.
     const notFound =
       announcementQuery.error instanceof ApiError &&
-      announcementQuery.error.body.statusCode === 404;
+      (announcementQuery.error.body.statusCode === 404 ||
+        announcementQuery.error.body.statusCode === 400);
     return (
       <StateCard
         alert={!notFound}
@@ -78,6 +82,12 @@ export function EditAnnouncementPage() {
     }
     setServerError(null);
 
+    // The form field is minute-precision; when the user did not touch it,
+    // send the stored value through unchanged so a no-op save cannot strip
+    // seconds off an API-created timestamp.
+    const dateUntouched =
+      values.publicationDate === formatPublicationDate(announcement.publicationDate);
+
     updateMutation.mutate(
       {
         id,
@@ -85,7 +95,9 @@ export function EditAnnouncementPage() {
           title: values.title,
           body: values.body,
           categoryIds: values.categoryIds,
-          publicationDate: publicationDate.toISOString(),
+          publicationDate: dateUntouched
+            ? announcement.publicationDate
+            : publicationDate.toISOString(),
         },
       },
       {

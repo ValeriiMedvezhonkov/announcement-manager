@@ -3,6 +3,7 @@ import {
   getListCategoriesQueryKey,
   useCreateCategory,
   useListCategories,
+  type CategoryResponseDto,
 } from '@announcement-manager/api-client';
 import { useQueryClient } from '@tanstack/react-query';
 import { notify } from '../../../shared/lib/notify.ts';
@@ -29,6 +30,15 @@ export function useCreateCategoryOption(onCreated: (option: CategoryOption) => v
       { data: { name } },
       {
         onSuccess: (category) => {
+          // Seed the cache synchronously BEFORE selecting: if only invalidate
+          // ran, the option list would lack the new category until the
+          // refetch lands, and the select's value filter would silently drop
+          // the just-created id from the form value in that window.
+          queryClient.setQueryData<CategoryResponseDto[]>(getListCategoriesQueryKey(), (old) =>
+            old === undefined
+              ? [category]
+              : [...old, category].sort((a, b) => a.name.localeCompare(b.name)),
+          );
           void queryClient.invalidateQueries({ queryKey: getListCategoriesQueryKey() });
           onCreated({ value: category.id, label: category.name });
           notify.success(`Category "${category.name}" created`);
