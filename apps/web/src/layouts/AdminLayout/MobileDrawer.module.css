@@ -1,0 +1,35 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background-color: rgb(22 25 29 / 0.4);
+}
+
+.drawer,
+.drawerOpen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  width: min(300px, 84vw);
+  padding: 12px;
+  background-color: var(--surface-sidebar);
+  border-right: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-overlay);
+  transform: translateX(-105%);
+  transition: transform 180ms ease;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 16px 12px;
+}

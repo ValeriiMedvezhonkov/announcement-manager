@@ -1,0 +1,21 @@
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  color: var(--accent-soft-ink);
+  background-color: var(--accent-soft);
+  border-radius: var(--radius-sm);
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-strong);
+}

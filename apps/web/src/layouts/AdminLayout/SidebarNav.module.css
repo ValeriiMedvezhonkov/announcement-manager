@@ -1,0 +1,32 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item,
+.itemActive {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-body);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: background-color 120ms ease;
+}
+
+.item:hover {
+  background-color: var(--surface-sunken);
+}
+
+.itemActive {
+  color: var(--accent-soft-ink);
+  background-color: var(--accent-soft);
+}
+
+.itemActive:hover {
+  background-color: var(--accent-soft-hover);
+}
