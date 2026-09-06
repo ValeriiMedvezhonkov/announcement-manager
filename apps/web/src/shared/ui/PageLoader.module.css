@@ -1,0 +1,32 @@
+.loader {
+  max-width: 560px;
+  margin: 0 auto;
+  padding-top: 8px;
+}
+
+.bar {
+  height: 40px;
+  margin-bottom: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--surface-sunken) 25%,
+    var(--border-subtle) 50%,
+    var(--surface-sunken) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--radius-md);
+  animation: pageLoaderShimmer 1.4s infinite;
+}
+
+.bar:first-child {
+  width: 40%;
+}
+
+@keyframes pageLoaderShimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

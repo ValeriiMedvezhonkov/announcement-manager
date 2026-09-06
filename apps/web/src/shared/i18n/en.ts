@@ -5,6 +5,9 @@
  * Adding a locale later means providing another file with this exact shape.
  */
 export const en = {
+  // common
+  'common.loading.aria': 'Loading page',
+
   // brand / navigation
   'brand.name': 'Test city',
   'nav.announcements': 'Announcements',

@@ -1,11 +1,26 @@
+import { lazy, Suspense, type ComponentType } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 
 import { AdminLayout } from '../../layouts/AdminLayout/AdminLayout.tsx';
-import { AnnouncementsPage } from '../../pages/AnnouncementsPage.tsx';
-import { CreateAnnouncementPage } from '../../pages/CreateAnnouncementPage.tsx';
-import { EditAnnouncementPage } from '../../pages/EditAnnouncementPage.tsx';
-import { NotFoundPage } from '../../pages/NotFoundPage.tsx';
+import { PageLoader } from '../../shared/ui/PageLoader.tsx';
 import { RouteErrorFallback } from '../../shared/ui/RouteErrorFallback.tsx';
+
+/**
+ * Pages are code-split per route: the list is the landing experience, while
+ * the create/edit pages carry the heavy form stack (date picker, select,
+ * form + schema libraries) that most visits never need up front.
+ */
+function lazyPage(load: () => Promise<Record<string, ComponentType>>, name: string) {
+  const Component = lazy(async () => {
+    const module = await load();
+    return { default: module[name] };
+  });
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <Component />
+    </Suspense>
+  );
+}
 
 export const router = createBrowserRouter([
   {
@@ -16,20 +31,29 @@ export const router = createBrowserRouter([
       { index: true, element: <Navigate to="/announcements" replace /> },
       {
         path: 'announcements',
-        element: <AnnouncementsPage />,
+        element: lazyPage(() => import('../../pages/AnnouncementsPage.tsx'), 'AnnouncementsPage'),
         errorElement: <RouteErrorFallback />,
       },
       {
         path: 'announcements/new',
-        element: <CreateAnnouncementPage />,
+        element: lazyPage(
+          () => import('../../pages/CreateAnnouncementPage.tsx'),
+          'CreateAnnouncementPage',
+        ),
         errorElement: <RouteErrorFallback />,
       },
       {
         path: 'announcements/:id',
-        element: <EditAnnouncementPage />,
+        element: lazyPage(
+          () => import('../../pages/EditAnnouncementPage.tsx'),
+          'EditAnnouncementPage',
+        ),
         errorElement: <RouteErrorFallback />,
       },
-      { path: '*', element: <NotFoundPage /> },
+      {
+        path: '*',
+        element: lazyPage(() => import('../../pages/NotFoundPage.tsx'), 'NotFoundPage'),
+      },
     ],
   },
 ]);
