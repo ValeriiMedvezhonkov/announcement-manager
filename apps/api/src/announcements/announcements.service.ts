@@ -1,7 +1,16 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 import { CategoriesRepository } from '../categories/categories.repository.js';
 import { ApiException } from '../common/errors/api.exception.js';
+import {
+  ANNOUNCEMENT_CREATED,
+  ANNOUNCEMENT_DELETED,
+  ANNOUNCEMENT_UPDATED,
+  AnnouncementCreatedEvent,
+  AnnouncementDeletedEvent,
+  AnnouncementUpdatedEvent,
+} from '../events/announcement.events.js';
 import { Prisma } from '../generated/prisma/client.js';
 import {
   type AnnouncementWithCategories,
@@ -41,6 +50,7 @@ export class AnnouncementsService {
   constructor(
     private readonly announcements: AnnouncementsRepository,
     private readonly categories: CategoriesRepository,
+    private readonly events: EventEmitter2,
   ) {}
 
   async list(params: ListAnnouncementsParams): Promise<AnnouncementListResult> {
@@ -68,7 +78,12 @@ export class AnnouncementsService {
 
   async create(input: CreateAnnouncementInput): Promise<AnnouncementWithCategories> {
     await this.assertCategoriesExist(input.categoryIds);
-    return this.announcements.create(input);
+    const created = await this.announcements.create(input);
+    // Emitted only after the PostgreSQL write succeeded; listeners handle
+    // secondary side effects (realtime, search indexing) and their failures
+    // must never affect this response.
+    this.events.emit(ANNOUNCEMENT_CREATED, new AnnouncementCreatedEvent(created.id, created.title));
+    return created;
   }
 
   async update(id: string, input: UpdateAnnouncementInput): Promise<AnnouncementWithCategories> {
@@ -76,11 +91,14 @@ export class AnnouncementsService {
       await this.assertCategoriesExist(input.categoryIds);
     }
 
+    let updated: AnnouncementWithCategories;
     try {
-      return await this.announcements.update(id, input);
+      updated = await this.announcements.update(id, input);
     } catch (error) {
       throw this.translateMissingRecord(error, id);
     }
+    this.events.emit(ANNOUNCEMENT_UPDATED, new AnnouncementUpdatedEvent(updated.id, updated.title));
+    return updated;
   }
 
   async delete(id: string): Promise<void> {
@@ -89,6 +107,7 @@ export class AnnouncementsService {
     } catch (error) {
       throw this.translateMissingRecord(error, id);
     }
+    this.events.emit(ANNOUNCEMENT_DELETED, new AnnouncementDeletedEvent(id));
   }
 
   /**
