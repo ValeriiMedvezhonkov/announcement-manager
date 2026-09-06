@@ -1,0 +1,16 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: color 120ms ease;
+}
+
+.link:hover {
+  color: var(--ink-strong);
+}

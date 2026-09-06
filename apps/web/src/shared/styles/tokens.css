@@ -1,0 +1,60 @@
+/*
+ * Design tokens.
+ *
+ * Palette is derived from the supplied design: near-white admin surfaces,
+ * a pale-yellow accent for the active navigation item, and a warm amber
+ * primary action. Blue is reserved for focus rings, red for destructive
+ * actions and errors.
+ */
+:root {
+  /* surfaces */
+  --surface-backdrop: #f3f1ea;
+  --surface-page: #ffffff;
+  --surface-sidebar: #fafaf8;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f6f7f8;
+
+  /* ink */
+  --ink-strong: #16191d;
+  --ink-body: #33383f;
+  --ink-muted: #6b7280;
+  --ink-faint: #9aa1ab;
+
+  /* lines */
+  --border-strong: #d7dbe0;
+  --border-default: #e5e7eb;
+  --border-subtle: #f0f1f3;
+
+  /* brand accents */
+  --accent-soft: #fbf3ce;
+  --accent-soft-hover: #f6ecb8;
+  --accent-soft-ink: #4a3f10;
+  --primary: #f0a437;
+  --primary-hover: #e39422;
+  --primary-active: #d2871a;
+  --primary-ink: #2b1d02;
+
+  /* states */
+  /* Focus uses a deep shade of the brand amber: on-palette, and dark enough
+     (≈5:1 on white) to work as a focus indicator, unlike the primary itself. */
+  --focus-ring: #b45309;
+  --danger: #d92d20;
+  --danger-soft: #fef3f2;
+
+  /* shape */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* elevation */
+  --shadow-raised: 0 1px 2px rgb(22 25 29 / 0.05);
+  --shadow-overlay: 0 10px 38px rgb(22 25 29 / 0.18);
+
+  /* type */
+  --font-sans: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* layout */
+  --sidebar-width: 248px;
+  --frame-max-width: 1280px;
+}

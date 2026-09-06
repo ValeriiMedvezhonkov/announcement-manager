@@ -1,0 +1,21 @@
+.field {
+  margin-bottom: 22px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+.hint {
+  margin: -2px 0 8px;
+  color: var(--ink-muted);
+}
+
+.error {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--danger);
+}

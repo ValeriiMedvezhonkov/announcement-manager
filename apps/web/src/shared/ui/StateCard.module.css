@@ -1,0 +1,20 @@
+.card {
+  padding: 40px 24px;
+  margin: 32px auto 0;
+  text-align: center;
+  background-color: var(--surface-sunken);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+.message {
+  max-width: 380px;
+  margin: 8px auto 20px;
+  color: var(--ink-muted);
+}
