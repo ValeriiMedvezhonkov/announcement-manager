@@ -9,6 +9,12 @@ jobs:
   validate:
     runs-on: ubuntu-latest
 
+    env:
+      # prisma.config.ts requires this to load (no .env file exists in CI);
+      # prisma generate never connects, and the tests create their own
+      # announcements_test database against the same service container.
+      DATABASE_URL: postgresql://announcements:announcements@localhost:5433/announcements?schema=public
+
     services:
       # Required by the API integration tests, which run against a real
       # PostgreSQL (they create and migrate an announcements_test database).
