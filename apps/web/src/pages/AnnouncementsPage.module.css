@@ -1,0 +1,22 @@
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pageTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+.addLink {
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .pageHeader {
+    flex-wrap: wrap;
+  }
+}
