@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    services:
+      # Required by the API integration tests, which run against a real
+      # PostgreSQL (they create and migrate an announcements_test database).
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: announcements
+          POSTGRES_PASSWORD: announcements
+          POSTGRES_DB: announcements
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U announcements"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+
+      - name: Verify generated API client is up to date
+        run: |
+          npm run api:generate
+          git diff --exit-code packages/api-client/src/generated
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
