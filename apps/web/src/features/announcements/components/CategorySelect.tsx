@@ -9,6 +9,7 @@ import { SHEET_ANIMATION_MS, useSheetDrag } from '../../../shared/ui/sheet/useSh
 import sheetStyles from '../../../shared/ui/sheet/Sheet.module.css';
 import { useMenuPlacement } from '../hooks/useMenuPlacement.ts';
 import { buildCategorySelectStyles } from './category-select-styles.ts';
+import { t } from '../../../shared/i18n/index.ts';
 
 export interface CategoryOption {
   value: string;
@@ -118,8 +119,8 @@ export function CategorySelect(props: CategorySelectProps) {
     value: props.value,
     isLoading: props.isLoading,
     isDisabled: props.isDisabled,
-    placeholder: props.placeholder ?? 'Select categories',
-    noOptionsMessage: () => 'No categories found',
+    placeholder: props.placeholder ?? t('categorySelect.placeholder'),
+    noOptionsMessage: () => t('categorySelect.noOptions'),
     onChange: (selected: readonly CategoryOption[]) => {
       props.onChange([...selected]);
     },
@@ -176,7 +177,7 @@ export function CategorySelect(props: CategorySelectProps) {
       {props.onCreateOption ? (
         <CreatableSelect
           {...shared}
-          formatCreateLabel={(input) => `Create "${input}"`}
+          formatCreateLabel={(input) => t('categorySelect.create', { name: input })}
           onCreateOption={props.onCreateOption}
         />
       ) : (

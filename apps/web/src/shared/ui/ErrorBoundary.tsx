@@ -1,6 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
 import styles from './ErrorBoundary.module.css';
+import { t } from '../i18n/index.ts';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -33,11 +34,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return (
       <div className={styles.wrapper} role="alert">
         <div className={styles.card}>
-          <h1 className={styles.title}>Something went wrong</h1>
-          <p className={styles.message}>
-            The page hit an unexpected error. Reloading usually resolves it; if the problem
-            persists, please try again later.
-          </p>
+          <h1 className={styles.title}>{t('error.page.title')}</h1>
+          <p className={styles.message}>{t('error.page.messageLong')}</p>
           <button
             type="button"
             className={styles.button}
@@ -45,7 +43,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               window.location.reload();
             }}
           >
-            Reload page
+            {t('error.page.reload')}
           </button>
         </div>
       </div>

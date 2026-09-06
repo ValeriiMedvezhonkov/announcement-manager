@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import styles from './Pagination.module.css';
+import { t } from '../i18n/index.ts';
 
 interface PaginationProps {
   page: number;
@@ -40,12 +41,12 @@ export function Pagination(props: PaginationProps) {
   }
 
   return (
-    <nav className={styles.pagination} aria-label="Pagination">
+    <nav className={styles.pagination} aria-label={t('pagination.aria')}>
       <button
         type="button"
         className={styles.arrow}
         disabled={props.page <= 1}
-        aria-label="Previous page"
+        aria-label={t('pagination.previous.aria')}
         onClick={() => {
           props.onPageChange(props.page - 1);
         }}
@@ -64,7 +65,7 @@ export function Pagination(props: PaginationProps) {
             type="button"
             className={item === props.page ? styles.pageActive : styles.page}
             aria-current={item === props.page ? 'page' : undefined}
-            aria-label={`Page ${String(item)}`}
+            aria-label={t('pagination.page.aria', { page: item })}
             onClick={() => {
               props.onPageChange(item);
             }}
@@ -78,7 +79,7 @@ export function Pagination(props: PaginationProps) {
         type="button"
         className={styles.arrow}
         disabled={props.page >= props.totalPages}
-        aria-label="Next page"
+        aria-label={t('pagination.next.aria')}
         onClick={() => {
           props.onPageChange(props.page + 1);
         }}

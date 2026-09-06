@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 import { notify } from '../../../shared/lib/notify.ts';
+import { t } from '../../../shared/i18n/index.ts';
 
 interface AnnouncementCreatedPayload {
   id: string;
@@ -28,7 +29,7 @@ export function useAnnouncementRealtime(): void {
     });
 
     socket.on('announcement.created', (payload: AnnouncementCreatedPayload) => {
-      notify.realtime(`New announcement: "${payload.title}"`);
+      notify.realtime(t('toast.announcement.realtime', { title: payload.title }));
       void queryClient.invalidateQueries({ queryKey: getListAnnouncementsQueryKey() });
     });
 

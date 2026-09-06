@@ -8,6 +8,7 @@ import { Brand } from './Brand.tsx';
 import { MobileDrawer } from './MobileDrawer.tsx';
 import { SidebarNav } from './SidebarNav.tsx';
 import styles from './AdminLayout.module.css';
+import { t } from '../../shared/i18n/index.ts';
 
 /**
  * Application chrome: brand + navigation sidebar and a content header.
@@ -26,7 +27,7 @@ export function AdminLayout() {
           <>
             <header className={styles.mobileHeader}>
               <IconButton
-                aria-label={drawerOpen ? 'Close navigation' : 'Open navigation'}
+                aria-label={drawerOpen ? t('nav.close.aria') : t('nav.open.aria')}
                 aria-expanded={drawerOpen}
                 onClick={() => {
                   setDrawerOpen((open) => !open);

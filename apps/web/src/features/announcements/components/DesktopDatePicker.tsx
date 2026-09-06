@@ -7,6 +7,7 @@ import shared from './date-field-shared.module.css';
 import styles from './DesktopDatePicker.module.css';
 
 import type { PublicationDateFieldProps } from './PublicationDateField.tsx';
+import { t } from '../../../shared/i18n/index.ts';
 
 /**
  * Desktop variant: calendar + time dropdown attached to the input.
@@ -50,9 +51,9 @@ export function DesktopDatePicker(props: PublicationDateFieldProps) {
         showTimeSelect
         timeFormat="HH:mm"
         timeIntervals={15}
-        timeCaption="Time"
+        timeCaption={t('dateField.timeCaption')}
         dateFormat="MM/dd/yyyy HH:mm"
-        placeholderText="MM/DD/YYYY HH:MM"
+        placeholderText={t('dateField.placeholder')}
         portalId="datepicker-portal"
         popperPlacement="bottom-start"
         showPopperArrow={false}

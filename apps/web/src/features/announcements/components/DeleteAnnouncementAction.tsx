@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Button } from '../../../shared/ui/Button.tsx';
 import styles from './DeleteAnnouncementAction.module.css';
+import { t } from '../../../shared/i18n/index.ts';
 
 interface DeleteAnnouncementActionProps {
   pending: boolean;
@@ -21,14 +22,14 @@ export function DeleteAnnouncementAction(props: DeleteAnnouncementActionProps) {
           setConfirming(true);
         }}
       >
-        Delete
+        {t('delete.action')}
       </Button>
     );
   }
 
   return (
-    <div className={styles.confirmGroup} role="alertdialog" aria-label="Confirm deletion">
-      <span className={styles.confirmText}>Delete this announcement?</span>
+    <div className={styles.confirmGroup} role="alertdialog" aria-label={t('delete.confirm.aria')}>
+      <span className={styles.confirmText}>{t('delete.confirm.question')}</span>
       <Button
         type="button"
         variant="secondary"
@@ -37,10 +38,10 @@ export function DeleteAnnouncementAction(props: DeleteAnnouncementActionProps) {
           setConfirming(false);
         }}
       >
-        Cancel
+        {t('delete.cancel')}
       </Button>
       <Button type="button" variant="danger" disabled={props.pending} onClick={props.onDelete}>
-        {props.pending ? 'Deleting…' : 'Delete'}
+        {props.pending ? t('delete.deleting') : t('delete.action')}
       </Button>
     </div>
   );

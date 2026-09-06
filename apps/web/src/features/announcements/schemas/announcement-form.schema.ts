@@ -1,24 +1,22 @@
 import { z } from 'zod';
 
-import { parsePublicationDate, PUBLICATION_DATE_FORMAT } from '../utils/dates.ts';
+import { parsePublicationDate } from '../utils/dates.ts';
+import { t } from '../../../shared/i18n/index.ts';
 
 /** Client-side mirror of the API rules; the API remains authoritative. */
 export const announcementFormSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, 'Title is required')
-    .max(200, 'Title must be at most 200 characters'),
-  body: z.string().trim().min(1, 'Content is required'),
-  categoryIds: z.array(z.string()).min(1, 'Select at least one category'),
+    .min(1, t('validation.title.required'))
+    .max(200, t('validation.title.max')),
+  body: z.string().trim().min(1, t('validation.content.required')),
+  categoryIds: z.array(z.string()).min(1, t('validation.category.required')),
   publicationDate: z
     .string()
     .trim()
-    .min(1, 'Publication date is required')
-    .refine(
-      (value) => parsePublicationDate(value) !== null,
-      `Use the format ${PUBLICATION_DATE_FORMAT.toUpperCase()}, e.g. 09/05/2026 14:30`,
-    ),
+    .min(1, t('validation.date.required'))
+    .refine((value) => parsePublicationDate(value) !== null, t('validation.date.format')),
 });
 
 export type AnnouncementFormValues = z.infer<typeof announcementFormSchema>;

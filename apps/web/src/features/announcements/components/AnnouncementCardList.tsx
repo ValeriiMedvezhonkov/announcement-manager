@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import { CategoryChip } from '../../../shared/ui/CategoryChip.tsx';
 import { formatPublicationDate, formatRelativeUpdate } from '../utils/dates.ts';
 import styles from './AnnouncementCardList.module.css';
+import { t } from '../../../shared/i18n/index.ts';
 
 /** Mobile card list; each card links to the announcement's edit page. */
 export function AnnouncementCardList({ items }: { items: AnnouncementResponseDto[] }) {
@@ -15,17 +16,19 @@ export function AnnouncementCardList({ items }: { items: AnnouncementResponseDto
           <Link
             to={`/announcements/${announcement.id}`}
             className={styles.card}
-            aria-label={`Edit "${announcement.title}"`}
+            aria-label={t('list.edit.aria', { title: announcement.title })}
           >
             <div className={styles.cardHeader}>
               <span className={styles.cardTitle}>{announcement.title}</span>
               <Pencil size={15} aria-hidden className={styles.cardEditIcon} />
             </div>
             <p className={styles.cardMeta}>
-              Published {formatPublicationDate(announcement.publicationDate)}
+              {t('list.card.published', {
+                date: formatPublicationDate(announcement.publicationDate),
+              })}
             </p>
             <p className={styles.cardMeta}>
-              Updated {formatRelativeUpdate(announcement.lastUpdate)}
+              {t('list.card.updated', { date: formatRelativeUpdate(announcement.lastUpdate) })}
             </p>
             <span className={styles.cardChips}>
               {announcement.categories.map((category) => (

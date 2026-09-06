@@ -22,6 +22,7 @@ import {
 import { Button } from '../shared/ui/Button.tsx';
 import { StateCard } from '../shared/ui/StateCard.tsx';
 import styles from './EditAnnouncementPage.module.css';
+import { t } from '../shared/i18n/index.ts';
 
 export function EditAnnouncementPage() {
   const { id = '' } = useParams();
@@ -36,7 +37,7 @@ export function EditAnnouncementPage() {
 
   if (announcementQuery.isLoading) {
     return (
-      <div className={styles.centered} aria-label="Loading announcement">
+      <div className={styles.centered} aria-label={t('edit.loading.aria')}>
         <div className={styles.skeletonTitle} />
         <div className={styles.skeletonBlock} />
       </div>
@@ -54,16 +55,12 @@ export function EditAnnouncementPage() {
     return (
       <StateCard
         alert={!notFound}
-        title={notFound ? 'Announcement not found' : 'Could not load the announcement'}
-        message={
-          notFound
-            ? 'It may have been deleted. Pick another announcement from the list.'
-            : 'The server did not respond. Please try again.'
-        }
+        title={notFound ? t('edit.notFound.title') : t('edit.error.title')}
+        message={notFound ? t('edit.notFound.message') : t('edit.error.message')}
       >
         <Link to="/announcements" className={styles.backLink}>
           <Button type="button" variant="secondary">
-            Back to announcements
+            {t('edit.back')}
           </Button>
         </Link>
       </StateCard>
@@ -104,7 +101,7 @@ export function EditAnnouncementPage() {
         onSuccess: (updated) => {
           void queryClient.invalidateQueries({ queryKey: getListAnnouncementsQueryKey() });
           void queryClient.invalidateQueries({ queryKey: getGetAnnouncementQueryKey(id) });
-          notify.success(`"${updated.title}" updated`);
+          notify.success(t('toast.announcement.updated', { title: updated.title }));
           void navigate('/announcements');
         },
         onError: (error) => {
@@ -123,7 +120,7 @@ export function EditAnnouncementPage() {
           // deleted resource can only 404.
           queryClient.removeQueries({ queryKey: getGetAnnouncementQueryKey(id) });
           void queryClient.invalidateQueries({ queryKey: getListAnnouncementsQueryKey() });
-          notify.success(`"${announcement.title}" deleted`);
+          notify.success(t('toast.announcement.deleted', { title: announcement.title }));
           void navigate('/announcements');
         },
         onError: (error) => {
@@ -135,8 +132,8 @@ export function EditAnnouncementPage() {
 
   return (
     <AnnouncementForm
-      title="Edit the announcement"
-      submitLabel="Publish"
+      title={t('form.edit.title')}
+      submitLabel={t('form.publish')}
       isSubmitting={updateMutation.isPending}
       serverError={serverError}
       defaultValues={{

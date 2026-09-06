@@ -6,6 +6,7 @@ import { IconButton } from '../../shared/ui/IconButton.tsx';
 import { Brand } from './Brand.tsx';
 import { SidebarNav } from './SidebarNav.tsx';
 import styles from './MobileDrawer.module.css';
+import { t } from '../../shared/i18n/index.ts';
 
 interface MobileDrawerProps {
   open: boolean;
@@ -39,7 +40,7 @@ export function MobileDrawer(props: MobileDrawerProps) {
       <aside className={open ? styles.drawerOpen : styles.drawer} aria-hidden={!open}>
         <div className={styles.header}>
           <Brand />
-          <IconButton aria-label="Close navigation" onClick={onClose}>
+          <IconButton aria-label={t('nav.close.aria')} onClick={onClose}>
             <X size={20} aria-hidden />
           </IconButton>
         </div>

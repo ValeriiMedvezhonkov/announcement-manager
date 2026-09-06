@@ -9,6 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { notify } from '../../../shared/lib/notify.ts';
 
 import type { CategoryOption } from '../components/CategorySelect.tsx';
+import { t } from '../../../shared/i18n/index.ts';
 
 /**
  * Inline category creation for the form's CreatableSelect.
@@ -41,7 +42,7 @@ export function useCreateCategoryOption(onCreated: (option: CategoryOption) => v
           );
           void queryClient.invalidateQueries({ queryKey: getListCategoriesQueryKey() });
           onCreated({ value: category.id, label: category.name });
-          notify.success(`Category "${category.name}" created`);
+          notify.success(t('toast.category.created', { name: category.name }));
         },
         onError: (error) => {
           void (async () => {
@@ -54,13 +55,11 @@ export function useCreateCategoryOption(onCreated: (option: CategoryOption) => v
               );
               if (existing !== undefined) {
                 onCreated({ value: existing.id, label: existing.name });
-                notify.info(`Category "${existing.name}" already existed and was selected`);
+                notify.info(t('toast.category.existed', { name: existing.name }));
                 return;
               }
             }
-            notify.error(
-              error instanceof ApiError ? error.message : 'Could not create the category',
-            );
+            notify.error(error instanceof ApiError ? error.message : t('toast.category.failed'));
           })();
         },
       },

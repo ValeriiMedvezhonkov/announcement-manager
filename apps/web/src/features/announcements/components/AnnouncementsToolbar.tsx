@@ -2,6 +2,7 @@ import { Search } from 'lucide-react';
 
 import { CategorySelect, type CategoryOption } from './CategorySelect.tsx';
 import styles from './AnnouncementsToolbar.module.css';
+import { t } from '../../../shared/i18n/index.ts';
 
 interface AnnouncementsToolbarProps {
   searchValue: string;
@@ -21,8 +22,8 @@ export function AnnouncementsToolbar(props: AnnouncementsToolbarProps) {
         <input
           type="search"
           className={styles.searchInput}
-          placeholder="Search announcements"
-          aria-label="Search announcements by title or content"
+          placeholder={t('list.search.placeholder')}
+          aria-label={t('list.search.aria')}
           value={props.searchValue}
           onChange={(event) => {
             props.onSearchChange(event.target.value);
@@ -31,8 +32,8 @@ export function AnnouncementsToolbar(props: AnnouncementsToolbarProps) {
       </div>
       <div className={styles.filterBox}>
         <CategorySelect
-          aria-label="Filter by categories"
-          placeholder="Filter by category"
+          aria-label={t('list.filter.aria')}
+          placeholder={t('list.filter.placeholder')}
           options={props.categoryOptions}
           isLoading={props.categoriesLoading}
           value={props.categoryOptions.filter((option) =>

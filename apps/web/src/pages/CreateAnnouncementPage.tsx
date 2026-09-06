@@ -15,6 +15,7 @@ import {
   parsePublicationDate,
   PUBLICATION_DATE_FORMAT,
 } from '../features/announcements/utils/dates.ts';
+import { t } from '../shared/i18n/index.ts';
 
 export function CreateAnnouncementPage() {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export function CreateAnnouncementPage() {
       {
         onSuccess: (announcement) => {
           void queryClient.invalidateQueries({ queryKey: getListAnnouncementsQueryKey() });
-          notify.success(`"${announcement.title}" published`);
+          notify.success(t('toast.announcement.published', { title: announcement.title }));
           void navigate('/announcements');
         },
         onError: (error) => {
@@ -53,8 +54,8 @@ export function CreateAnnouncementPage() {
 
   return (
     <AnnouncementForm
-      title="Add announcement"
-      submitLabel="Publish"
+      title={t('form.create.title')}
+      submitLabel={t('form.publish')}
       isSubmitting={mutation.isPending}
       serverError={serverError}
       defaultValues={{

@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import { CategoryChip } from '../../../shared/ui/CategoryChip.tsx';
 import { formatLastUpdate, formatRelativeUpdate, splitDateParts } from '../utils/dates.ts';
 import styles from './AnnouncementsTable.module.css';
+import { t } from '../../../shared/i18n/index.ts';
 
 /** Two-line date cell: primary reading on top, secondary muted below. */
 function DateCell({ main, sub }: { main: string; sub: string }) {
@@ -22,12 +23,12 @@ export function AnnouncementsTable({ items }: { items: AnnouncementResponseDto[]
     <table className={styles.table}>
       <thead>
         <tr>
-          <th className={styles.th}>Title</th>
-          <th className={styles.th}>Publication date</th>
-          <th className={styles.th}>Last update</th>
-          <th className={styles.th}>Categories</th>
+          <th className={styles.th}>{t('list.header.title')}</th>
+          <th className={styles.th}>{t('list.header.publicationDate')}</th>
+          <th className={styles.th}>{t('list.header.lastUpdate')}</th>
+          <th className={styles.th}>{t('list.header.categories')}</th>
           <th className={styles.thAction}>
-            <span className={styles.visuallyHidden}>Actions</span>
+            <span className={styles.visuallyHidden}>{t('list.header.actions')}</span>
           </th>
         </tr>
       </thead>
@@ -53,7 +54,7 @@ export function AnnouncementsTable({ items }: { items: AnnouncementResponseDto[]
                 <Link
                   to={`/announcements/${announcement.id}`}
                   className={styles.editLink}
-                  aria-label={`Edit "${announcement.title}"`}
+                  aria-label={t('list.edit.aria', { title: announcement.title })}
                 >
                   <Pencil size={15} aria-hidden />
                 </Link>

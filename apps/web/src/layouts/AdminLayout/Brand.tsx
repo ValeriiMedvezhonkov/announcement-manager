@@ -1,8 +1,7 @@
 import { Landmark } from 'lucide-react';
 
 import styles from './Brand.module.css';
-
-export const BRAND_NAME = 'Test city';
+import { t } from '../../shared/i18n/index.ts';
 
 /** Application brand row: icon tile + name. */
 export function Brand() {
@@ -11,7 +10,7 @@ export function Brand() {
       <span className={styles.icon}>
         <Landmark size={14} aria-hidden />
       </span>
-      <span className={styles.name}>{BRAND_NAME}</span>
+      <span className={styles.name}>{t('brand.name')}</span>
     </div>
   );
 }

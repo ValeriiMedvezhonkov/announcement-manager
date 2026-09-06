@@ -7,6 +7,7 @@ import shared from './date-field-shared.module.css';
 import styles from './MobileDateSheet.module.css';
 
 import type { PublicationDateFieldProps } from './PublicationDateField.tsx';
+import { t } from '../../../shared/i18n/index.ts';
 
 /**
  * Mobile variant: a read-only field that opens the shared bottom sheet with
@@ -27,7 +28,7 @@ export function MobileDateSheet(props: PublicationDateFieldProps) {
         type="text"
         readOnly
         value={props.value}
-        placeholder="MM/DD/YYYY HH:MM"
+        placeholder={t('dateField.placeholder')}
         aria-invalid={props.isInvalid}
         aria-describedby={props.describedBy}
         aria-haspopup="dialog"
@@ -41,11 +42,7 @@ export function MobileDateSheet(props: PublicationDateFieldProps) {
           }
         }}
       />
-      <BottomSheet
-        open={sheetOpen}
-        aria-label="Pick publication date and time"
-        onClose={closeSheet}
-      >
+      <BottomSheet open={sheetOpen} aria-label={t('dateField.sheet.aria')} onClose={closeSheet}>
         <div className={styles.sheetCalendar}>
           <DatePicker
             selected={parsePublicationDate(props.value)}
@@ -68,7 +65,7 @@ export function MobileDateSheet(props: PublicationDateFieldProps) {
             showTimeSelect
             timeFormat="HH:mm"
             timeIntervals={15}
-            timeCaption="Time"
+            timeCaption={t('dateField.timeCaption')}
             calendarClassName={shared.calendar}
           />
         </div>

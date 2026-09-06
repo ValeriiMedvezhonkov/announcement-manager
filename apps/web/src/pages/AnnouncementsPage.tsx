@@ -16,6 +16,7 @@ import { Button } from '../shared/ui/Button.tsx';
 import { Pagination } from '../shared/ui/Pagination.tsx';
 import { StateCard } from '../shared/ui/StateCard.tsx';
 import styles from './AnnouncementsPage.module.css';
+import { t } from '../shared/i18n/index.ts';
 
 const PAGE_SIZE = 5;
 const SEARCH_DEBOUNCE_MS = 300;
@@ -97,11 +98,11 @@ export function AnnouncementsPage() {
   return (
     <div>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>Announcements</h1>
+        <h1 className={styles.pageTitle}>{t('list.title')}</h1>
         <Link to="/announcements/new" className={styles.addLink}>
           <Button type="button">
             <Plus size={16} aria-hidden />
-            Add announcement
+            {t('list.add')}
           </Button>
         </Link>
       </div>
@@ -118,11 +119,7 @@ export function AnnouncementsPage() {
       {listQuery.isLoading && <ListSkeleton />}
 
       {listQuery.isError && data === undefined && (
-        <StateCard
-          alert
-          title="Could not load announcements"
-          message="The server did not respond. Check that the API is running, then try again."
-        >
+        <StateCard alert title={t('list.error.title')} message={t('list.error.message')}>
           <Button
             type="button"
             variant="secondary"
@@ -130,29 +127,25 @@ export function AnnouncementsPage() {
               void listQuery.refetch();
             }}
           >
-            Try again
+            {t('list.error.retry')}
           </Button>
         </StateCard>
       )}
 
       {data?.total === 0 && (
         <StateCard
-          title={hasFilters ? 'No matching announcements' : 'No announcements yet'}
-          message={
-            hasFilters
-              ? 'Nothing matches your current search and filters.'
-              : 'Create the first announcement to get started.'
-          }
+          title={hasFilters ? t('list.filteredEmpty.title') : t('list.empty.title')}
+          message={hasFilters ? t('list.filteredEmpty.message') : t('list.empty.message')}
         >
           {hasFilters ? (
             <Button type="button" variant="secondary" onClick={onClearFilters}>
-              Clear filters
+              {t('list.filteredEmpty.clear')}
             </Button>
           ) : (
             <Link to="/announcements/new" className={styles.addLink}>
               <Button type="button">
                 <Plus size={16} aria-hidden />
-                Add announcement
+                {t('list.add')}
               </Button>
             </Link>
           )}
@@ -161,7 +154,7 @@ export function AnnouncementsPage() {
 
       {listQuery.isError && data !== undefined && (
         <p className={styles.refreshError} role="alert">
-          Couldn’t refresh the list — showing the last loaded results.
+          {t('list.refreshError')}
         </p>
       )}
 

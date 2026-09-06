@@ -14,6 +14,7 @@ import { useCreateCategoryOption } from '../hooks/useCreateCategoryOption.ts';
 import { CategorySelect, type CategoryOption } from './CategorySelect.tsx';
 import { PublicationDateField } from './PublicationDateField.tsx';
 import styles from './AnnouncementForm.module.css';
+import { t } from '../../../shared/i18n/index.ts';
 
 interface AnnouncementFormProps {
   title: string;
@@ -62,13 +63,13 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
         void handleSubmit(props.onSubmit)(event);
       }}
     >
-      <BackLink to="/announcements">Back to announcements</BackLink>
+      <BackLink to="/announcements">{t('form.back')}</BackLink>
 
       <h1 className={styles.formTitle}>{props.title}</h1>
 
       {isSubmitted && (
         <FormErrorSummary
-          title="Please fill in all required fields before publishing:"
+          title={t('form.summary.title')}
           messages={Object.values(errors)
             .map((error) => error.message)
             .filter((message): message is string => message !== undefined)}
@@ -82,7 +83,7 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
       )}
 
       <FormField
-        label="Title"
+        label={t('form.field.title')}
         htmlFor="announcement-title"
         error={errors.title?.message}
         errorId="announcement-title-error"
@@ -98,7 +99,7 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
       </FormField>
 
       <FormField
-        label="Content"
+        label={t('form.field.content')}
         htmlFor="announcement-body"
         error={errors.body?.message}
         errorId="announcement-body-error"
@@ -114,9 +115,9 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
       </FormField>
 
       <FormField
-        label="Category"
+        label={t('form.field.category')}
         htmlFor="announcement-categories"
-        hint="Select category so readers know what your announcement is about."
+        hint={t('form.field.category.hint')}
         error={errors.categoryIds?.message}
         errorId="announcement-categories-error"
       >
@@ -140,7 +141,7 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
       </FormField>
 
       <FormField
-        label="Publication date"
+        label={t('form.field.publicationDate')}
         htmlFor="announcement-date"
         error={errors.publicationDate?.message}
         errorId="announcement-date-error"
@@ -164,7 +165,7 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
       <div className={styles.actions}>
         {props.secondaryAction}
         <Button type="submit" disabled={props.isSubmitting}>
-          {props.isSubmitting ? 'Saving…' : props.submitLabel}
+          {props.isSubmitting ? t('form.saving') : props.submitLabel}
         </Button>
       </div>
     </form>

@@ -1,4 +1,5 @@
 import { ApiError } from '@announcement-manager/api-client';
+import { t } from '../../../shared/i18n/index.ts';
 
 /** Maps API errors onto a readable submit-error message. */
 export function describeApiError(error: unknown): string {
@@ -9,5 +10,5 @@ export function describeApiError(error: unknown): string {
     }
     return error.body.message;
   }
-  return 'Something went wrong while saving. Please try again.';
+  return t('error.generic');
 }

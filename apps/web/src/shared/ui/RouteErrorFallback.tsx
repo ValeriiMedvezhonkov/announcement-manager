@@ -2,6 +2,7 @@ import { useRouteError } from 'react-router';
 
 import { Button } from './Button.tsx';
 import { StateCard } from './StateCard.tsx';
+import { t } from '../i18n/index.ts';
 
 /**
  * Route-level error element: the data router catches render/loader errors
@@ -13,11 +14,7 @@ export function RouteErrorFallback() {
   console.error('Route error', error);
 
   return (
-    <StateCard
-      alert
-      title="Something went wrong"
-      message="The page hit an unexpected error. Reloading usually resolves it."
-    >
+    <StateCard alert title={t('error.page.title')} message={t('error.page.message')}>
       <Button
         type="button"
         variant="secondary"
@@ -25,7 +22,7 @@ export function RouteErrorFallback() {
           window.location.reload();
         }}
       >
-        Reload page
+        {t('error.page.reload')}
       </Button>
     </StateCard>
   );
