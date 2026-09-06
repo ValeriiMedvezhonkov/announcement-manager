@@ -27,10 +27,16 @@ describe('AnnouncementForm', () => {
 
     await user.click(screen.getByRole('button', { name: 'Publish' }));
 
-    expect(await screen.findByText('Title is required')).toBeInTheDocument();
-    expect(screen.getByText('Content is required')).toBeInTheDocument();
-    expect(screen.getByText('Select at least one category')).toBeInTheDocument();
-    expect(screen.getByText('Publication date is required')).toBeInTheDocument();
+    // summary alert box lists every problem...
+    const summary = (await screen.findByText(/fill in all required fields/)).closest(
+      '[role="alert"]',
+    );
+    expect(summary).toHaveTextContent('Title is required');
+    // ...and each field also shows its own error (hence 2 occurrences each)
+    expect(screen.getAllByText('Title is required')).toHaveLength(2);
+    expect(screen.getAllByText('Content is required')).toHaveLength(2);
+    expect(screen.getAllByText('Select at least one category')).toHaveLength(2);
+    expect(screen.getAllByText('Publication date is required')).toHaveLength(2);
     expect(onSubmit).not.toHaveBeenCalled();
   });
 

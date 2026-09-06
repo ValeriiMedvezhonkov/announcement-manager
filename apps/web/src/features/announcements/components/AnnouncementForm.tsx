@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { BackLink } from '../../../shared/ui/BackLink.tsx';
 import { Button } from '../../../shared/ui/Button.tsx';
+import { FormErrorSummary } from '../../../shared/ui/FormErrorSummary.tsx';
 import { FormField } from '../../../shared/ui/FormField.tsx';
 import {
   announcementFormSchema,
@@ -34,7 +35,7 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
     control,
     setValue,
     getValues,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = useForm<AnnouncementFormValues>({
     resolver: zodResolver(announcementFormSchema),
     defaultValues: props.defaultValues,
@@ -64,6 +65,15 @@ export function AnnouncementForm(props: AnnouncementFormProps) {
       <BackLink to="/announcements">Back to announcements</BackLink>
 
       <h1 className={styles.formTitle}>{props.title}</h1>
+
+      {isSubmitted && (
+        <FormErrorSummary
+          title="Please fill in all required fields before publishing:"
+          messages={Object.values(errors)
+            .map((error) => error.message)
+            .filter((message): message is string => message !== undefined)}
+        />
+      )}
 
       {props.serverError !== null && (
         <div className={styles.serverError} role="alert">
