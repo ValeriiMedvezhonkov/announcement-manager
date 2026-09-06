@@ -28,7 +28,8 @@
     "db:seed": "npm run db:seed --workspace apps/api",
     "db:studio": "npm run db:studio --workspace apps/api",
     "api:spec": "npm run api:spec --workspace apps/api",
-    "api:generate": "npm run generate --workspace packages/api-client"
+    "api:generate": "npm run generate --workspace packages/api-client",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
