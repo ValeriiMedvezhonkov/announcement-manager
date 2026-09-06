@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { useEffect } from 'react';
 
+import { useBodyScrollLock } from '../../shared/lib/useBodyScrollLock.ts';
 import { IconButton } from '../../shared/ui/IconButton.tsx';
 import { Brand } from './Brand.tsx';
 import { SidebarNav } from './SidebarNav.tsx';
@@ -14,6 +15,8 @@ interface MobileDrawerProps {
 /** Slide-in navigation drawer for mobile viewports. */
 export function MobileDrawer(props: MobileDrawerProps) {
   const { open, onClose } = props;
+
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) {

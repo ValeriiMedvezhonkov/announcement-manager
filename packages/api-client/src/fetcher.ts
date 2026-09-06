@@ -28,12 +28,12 @@ interface ImportMetaEnv {
 }
 
 const env = (import.meta as unknown as { env?: ImportMetaEnv }).env;
-const BASE_URL: string = env?.VITE_API_BASE_URL ?? 'http://localhost:3000/api';
+// Origin only — generated paths already carry the /api prefix, so joining is
+// verbatim and no fragile prefix-stripping is needed.
+const BASE_URL: string = (env?.VITE_API_BASE_URL ?? 'http://localhost:3000').replace(/\/$/, '');
 
 export async function fetcher<T>(url: string, options?: RequestInit): Promise<T> {
-  // Generated code passes paths including the /api prefix; the base URL also
-  // ends with it, so strip the duplicate before joining.
-  const path = url.startsWith('/api') ? url.slice(4) : url;
+  const path = url;
 
   // Headers dedupe case-insensitively; a plain object spread would not, and
   // duplicate content-type headers make Express reject the JSON body.
